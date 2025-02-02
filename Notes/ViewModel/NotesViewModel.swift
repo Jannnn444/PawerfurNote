@@ -45,6 +45,16 @@ class NotesViewModel: ObservableObject {
         }
     }
 
+    func getNotes() {
+        let url = "/api/note"
+        print("DEBUG: Fetching get note from url: \(url)")
+        
+        NetworkManager.shared.getRequest(url: url) { (result: Result<DetailRes)
+            
+        }
+        
+    }
+    
     func createNote() -> NoteEntity {
         let newNote = NoteEntity(context: manager.container.viewContext)
         newNote.id = UUID()

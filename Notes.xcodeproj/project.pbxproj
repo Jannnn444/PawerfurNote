@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E358CB12D4E4B44000821FE /* Networking in Resources */ = {isa = PBXBuildFile; fileRef = 1E358CB02D4E4B43000821FE /* Networking */; };
+		1E358CB52D4FAFC8000821FE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB32D4FAFC8000821FE /* NetworkManager.swift */; };
+		1E358CB62D4FAFC8000821FE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB42D4FAFC8000821FE /* Config.swift */; };
+		1E358CB82D4FB143000821FE /* NoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB72D4FB143000821FE /* NoteData.swift */; };
 		DB7654D62B66C39D008CCE12 /* NotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7654D52B66C39D008CCE12 /* NotesViewModel.swift */; };
 		DB9C1E702B65BE9200964A11 /* NotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9C1E6F2B65BE9200964A11 /* NotesApp.swift */; };
 		DB9C1E722B65BE9200964A11 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9C1E712B65BE9200964A11 /* ContentView.swift */; };
@@ -23,7 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1E358CB02D4E4B43000821FE /* Networking */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Networking; sourceTree = "<group>"; };
+		1E358CB32D4FAFC8000821FE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		1E358CB42D4FAFC8000821FE /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		1E358CB72D4FB143000821FE /* NoteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteData.swift; sourceTree = "<group>"; };
 		DB7654D52B66C39D008CCE12 /* NotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewModel.swift; sourceTree = "<group>"; };
 		DB9C1E6C2B65BE9200964A11 /* Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB9C1E6F2B65BE9200964A11 /* NotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesApp.swift; sourceTree = "<group>"; };
@@ -50,6 +54,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E358CB22D4FAFBF000821FE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1E358CB42D4FAFC8000821FE /* Config.swift */,
+				1E358CB32D4FAFC8000821FE /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		DB84073D2B6762A10012A6D7 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +88,7 @@
 			children = (
 				DB9C1E8F2B65C43600964A11 /* NotesContainer.xcdatamodeld */,
 				DB9C1E852B65BF6D00964A11 /* CoreDataManager.swift */,
+				1E358CB72D4FB143000821FE /* NoteData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -106,11 +120,11 @@
 		DB9C1E6E2B65BE9200964A11 /* Notes */ = {
 			isa = PBXGroup;
 			children = (
+				1E358CB22D4FAFBF000821FE /* Network */,
 				DB9C1E6F2B65BE9200964A11 /* NotesApp.swift */,
 				DB9C1E732B65BE9300964A11 /* Assets.xcassets */,
 				DB9C1E752B65BE9300964A11 /* Preview Content */,
 				DB84073D2B6762A10012A6D7 /* View */,
-				1E358CB02D4E4B43000821FE /* Networking */,
 				DB84073F2B6762DC0012A6D7 /* Model */,
 				DB8407402B6762F90012A6D7 /* Extensions */,
 				DB84073E2B6762BA0012A6D7 /* ViewModel */,
@@ -184,7 +198,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E358CB12D4E4B44000821FE /* Networking in Resources */,
 				DB9C1E772B65BE9300964A11 /* Preview Assets.xcassets in Resources */,
 				DB9C1E742B65BE9300964A11 /* Assets.xcassets in Resources */,
 			);
@@ -197,10 +210,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E358CB82D4FB143000821FE /* NoteData.swift in Sources */,
 				DB9C1E842B65BF4F00964A11 /* TextEditorView.swift in Sources */,
 				DB9C1E802B65BF1300964A11 /* EditNotesView.swift in Sources */,
 				DB9C1E722B65BE9200964A11 /* ContentView.swift in Sources */,
 				DB9C1E882B65C18B00964A11 /* Extensions.swift in Sources */,
+				1E358CB52D4FAFC8000821FE /* NetworkManager.swift in Sources */,
+				1E358CB62D4FAFC8000821FE /* Config.swift in Sources */,
 				DB9C1E702B65BE9200964A11 /* NotesApp.swift in Sources */,
 				DB9C1E7E2B65BEDB00964A11 /* NotesView.swift in Sources */,
 				DB7654D62B66C39D008CCE12 /* NotesViewModel.swift in Sources */,

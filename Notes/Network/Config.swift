@@ -6,7 +6,9 @@
 //
 
 // API PORT for Development
-let PORT = 4041
+let PORT = 6666
+
+/*4041*/
 
 // network ips for api development
 let mobileIP = "172.20.10.4"              //Kranti Phone :"172.20.10.9"
