@@ -16,3 +16,9 @@ struct Note: Codable, Hashable, Identifiable {
     let updatedAt: Date
 }
 
+struct NoteResponse: Codable, Hashable {
+    let messages: String
+    let statusCode: Int
+    let result: Note
+}
+
