@@ -17,8 +17,8 @@ struct Note: Codable, Hashable, Identifiable {
 }
 
 struct NoteResponse: Codable, Hashable {
-    let messages: String
+    let message: String
     let statusCode: Int
-    let result: Note
+    let result: [Note]
 }
 
