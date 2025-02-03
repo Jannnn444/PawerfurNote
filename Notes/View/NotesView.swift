@@ -32,13 +32,12 @@ struct NotesView: View {
         ZStack {
             Color(.noteBlack)
                 .edgesIgnoringSafeArea(.all)
-      
                
                 VStack {
                     HStack {
                         Text("Notes")
                             .fontDesign(.rounded)
-                            .foregroundStyle(.noteSecondary)
+                            .foregroundStyle(.noteAlmond)
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .padding(.leading)
@@ -51,7 +50,7 @@ struct NotesView: View {
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.noteAlmond)
                         }
                         .padding()
                     }
@@ -80,6 +79,10 @@ struct NotesView: View {
                 }
                 .sheet(item: $selectedNote) { note in
                     EditNotesView(note: note)
+                }
+                .onAppear() {
+                    vm.getNotes()
+                    print(vm.getNotes.self)
                 }
             
            

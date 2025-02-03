@@ -49,8 +49,9 @@ struct EditNotesView: View {
                     Spacer()
                     Button("Done") {
                         self.hideKeyboard()
-                        // Save to Core Data
+                        // 1. Save to Core Data
                         self.updateNote(title: title, content: content)
+                        // 2. Save to post api
                     }
                 }
             }

@@ -14,6 +14,7 @@ class NotesViewModel: ObservableObject {
     @Published var notes: [NoteEntity] = []
     @Published var isDataLoaded = false
     @Published var errorMessages: String? = nil
+    @Published var note: Note?
 
     init(manager: CoreDataManager) {
         self.manager = manager
@@ -71,7 +72,7 @@ class NotesViewModel: ObservableObject {
         newNote.timestamp = Date()
         saveContext()
         fetchNotes() // Refresh notes list
-        getNotes()
+//        getNotes()
         
         return newNote
     }
