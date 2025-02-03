@@ -8,12 +8,12 @@
 import Foundation
 
 struct Note: Codable, Hashable, Identifiable {
-    let id: UUID
+    let id: String
     let title: String
     let content: String
     let favorite: Bool
-    let createdAt: Date
-    let updatedAt: Date
+    let created_at: String
+    let updated_at: String
 }
 
 struct NoteResponse: Codable, Hashable {

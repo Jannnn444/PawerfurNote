@@ -30,7 +30,7 @@ class NetworkManager {
     func getRequest<T: Decodable>(url: String, completion: @escaping(Result<T, Error>) -> Void) {
         // convert url endpoint to URL object
 
-        guard let urlObject = URL(string: "http://\(apiDomain):\(PORT)\(url)") else {
+        guard let urlObject = URL(string: "http://\(apiDomain):\(url)") else {
             completion(.failure(NetworkError.urlError))
             return
         }
@@ -49,6 +49,26 @@ class NetworkManager {
                 completion(.failure(NetworkError.unknownError))
                 return
             }
+            
+            // MARK: JsonData DEBUG Print
+                
+                do {
+                    // attempt to decode the data
+                    let decodedData = try JSONDecoder().decode(T.self, from: data)
+                    
+                    print("decodedDataJsonData1 : \(decodedData)")
+                    
+                    DispatchQueue.main.async {
+                        print("decodedDataJsonData2 : \(decodedData)")
+                        // return data after asynchronous operation
+                        completion(.success(decodedData))
+                        print("decodedDataJsonData3 : \(decodedData)")
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(.failure(NetworkError.decodingError(error.localizedDescription)))
+                    }
+                }
         }
         
         // initiate async request
