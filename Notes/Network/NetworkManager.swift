@@ -49,26 +49,6 @@ class NetworkManager {
                 completion(.failure(NetworkError.unknownError))
                 return
             }
-           
-        // MARK: NOTE: DispatchQueue why here 2, JsonData DEBUG Print
-            
-            do {
-                // attempt to decode the data
-                let decodedData = try JSONDecoder().decode(T.self, from: data)
-                
-                print("decodedDataJsonData1 : \(decodedData)")
-                
-                DispatchQueue.main.async {
-                    print("decodedDataJsonData2 : \(decodedData)")
-                    // return data after asynchronous operation
-                    completion(.success(decodedData))
-                    print("decodedDataJsonData3 : \(decodedData)")
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.decodingError(error.localizedDescription)))
-                }
-            }
         }
         
         // initiate async request

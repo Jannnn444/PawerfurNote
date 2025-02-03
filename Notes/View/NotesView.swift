@@ -82,7 +82,7 @@ struct NotesView: View {
                 }
                 .onAppear() {
                     vm.getNotes()
-                    print(vm.getNotes.self)
+                    print("Called vm.getNotes()")
                 }
             
            

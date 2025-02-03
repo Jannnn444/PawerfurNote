@@ -48,7 +48,7 @@ class NotesViewModel: ObservableObject {
     }
 
     func getNotes() {
-        let url = "/api/note"
+        let url = "/api/notes"
         print("✅ Fetching note from url: \(url)")
         
         NetworkManager.shared.getRequest(url: url) { (result: Result<NoteResponse, Error>) in
