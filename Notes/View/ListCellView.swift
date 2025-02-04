@@ -26,6 +26,7 @@ struct ListCellView: View {
         .background(noteBackgroundColor(note))
         .cornerRadius(10)
     }
+    
     private func noteBackgroundColor(_ note: NoteEntity) -> Color {
         if let title = note.title, title.contains("Important") {
             return .red.opacity(0.2) // Highlight important notes

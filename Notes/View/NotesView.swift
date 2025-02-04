@@ -63,6 +63,7 @@ struct NotesView: View {
                                         selectedNote = note
                                     } label: {
                                         ListCellView(note: note)
+                                            .listRowBackground(Color.noteBlack)
                                     }
                                 }
                                 .onDelete { indexSet in
@@ -71,6 +72,7 @@ struct NotesView: View {
                             }
                         }
                     }
+                    .listRowBackground(Color.noteBlack)
                     .scrollContentBackground(.hidden)
                     .searchable(text: $searchText)
                     .onChange(of: searchText) {
