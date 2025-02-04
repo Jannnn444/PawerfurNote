@@ -85,6 +85,8 @@ struct NotesView: View {
                 .onAppear() {
                     vm.getNotes()
                     print("Called vm.getNotes()")
+                    vm.postNotes(title: "Hey baby", content: "Give u ♥︎ and ☃︎")
+                    print("Post new Note!")
                 }
             
            

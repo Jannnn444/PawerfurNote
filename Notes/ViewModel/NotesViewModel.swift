@@ -67,21 +67,29 @@ class NotesViewModel: ObservableObject {
     func postNotes(title: String, content: String) {
         let url = "/api/notes"
         
-        // The payload dictionary needs to be explicitly encoded as JSON before sending it in the network request.
-        let newNote = Note(
-            id: UUID().uuidString,
-            title: title,
-            content: content,
-            favorite: false,
-            created_at: ISO8601DateFormatter().string(from: Date()),
-            updated_at: ISO8601DateFormatter().string(from: Date())
-        )
+        let dateFormatter = ISO8601DateFormatter()
         
-        guard let jsonData = try? JSONEncoder().encode(newNote) else {
-            print("⚠️ Failed to encode note data")
-            return
-        }
-        print("✅ Posting note to url: \(url)...")
+        // The payload dictionary needs to be explicitly encoded as JSON before sending it in the network request.
+        let newNote: [String: Any] = [
+            "id": "UUID().uuidString",
+            "title": title,
+            "content": content,
+            "favorite": false,  // Convert boolean to string if needed
+            "created_at": "dateFormatter.string(from: Date())",
+            "updated_at": "dateFormatter.string(from: Date())"
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: newNote, options: .prettyPrinted) else {
+              print("⚠️ Failed to encode note data")
+              return
+          }
+
+          // Print JSON before sending
+          if let jsonString = String(data: jsonData, encoding: .utf8) {
+              print("📩 JSON Payload: \(jsonString)")
+          }
+          
+          print("✅ Posting note to url: \(url)...")
         
         NetworkManager.shared.postRequest(url: url, payload: jsonData) { (result: Result<NoteResponse, Error>) in
             DispatchQueue.main.async {
