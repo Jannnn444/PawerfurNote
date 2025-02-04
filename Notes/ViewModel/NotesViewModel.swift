@@ -49,7 +49,7 @@ class NotesViewModel: ObservableObject {
 
     func getNotes() {
         let url = "/api/notes"
-        print("✅ Fetching note from url: \(url)")
+        print("✅ Fetching note from url: \(url)...")
         
         NetworkManager.shared.getRequest(url: url) { (result: Result<NoteResponse, Error>) in
             DispatchQueue.main.async {
@@ -61,10 +61,42 @@ class NotesViewModel: ObservableObject {
                     self.handleError(error)
                 }
             }
-            
         }
-        
     }
+    
+    func postNotes(title: String, content: String) {
+        let url = "/api/notes"
+        
+        // The payload dictionary needs to be explicitly encoded as JSON before sending it in the network request.
+        let newNote = Note(
+            id: UUID().uuidString,
+            title: title,
+            content: content,
+            favorite: false,
+            created_at: ISO8601DateFormatter().string(from: Date()),
+            updated_at: ISO8601DateFormatter().string(from: Date())
+        )
+        
+        guard let jsonData = try? JSONEncoder().encode(newNote) else {
+            print("⚠️ Failed to encode note data")
+            return
+        }
+        print("✅ Posting note to url: \(url)...")
+        
+        NetworkManager.shared.postRequest(url: url, payload: jsonData) { (result: Result<NoteResponse, Error>) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    print("✅ Success. Posted note: \(response.result)")
+                    self.fetchNotes() // Refresh notes after posting
+                case .failure(let error):
+                    print("⚠️ Error occurred: \(error.localizedDescription)")
+                    self.handleError(error)
+                }
+            }
+        }
+    }
+
     
     func createNote() -> NoteEntity {
         let newNote = NoteEntity(context: manager.container.viewContext)
