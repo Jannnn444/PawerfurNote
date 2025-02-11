@@ -21,7 +21,7 @@ struct ListCellView: View {
                     .foregroundStyle(.noteBlack)
                 Text(note.content ?? "No context available")
                     .lineLimit(1)
-                    .fontWeight(.light)
+                    .font(.title3)
                     .foregroundStyle(.noteBlack)
             }
             .padding()

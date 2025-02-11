@@ -63,13 +63,10 @@ struct NotesView: View {
         }.ignoresSafeArea()
          .background(.black)
          .onAppear() {
-             noteViewModel.postNotes(title: "Meow", content: "Hit!!!")
+//             noteViewModel.postNotes(title: "Meow", content: "Hit!!!")
          }
     }
         
-    
-    // MARK: Core Data Operations
-    
     private func createNewNote() {
         selectedNote = nil
 //        selectedNote = vm.createNote()

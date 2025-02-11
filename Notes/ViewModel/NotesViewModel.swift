@@ -65,17 +65,13 @@ class NotesViewModel: ObservableObject {
             }
         }
     }
-
     
     func searchNotes(with searchText: String) {
 //        fetchNotes(with: searchText)
     } 
     
     func addToFavorite() {
-        
     }
-
-   
     
     private func handleError(_ error: Error) {
            self.errorMessages = error.localizedDescription

@@ -47,35 +47,24 @@ struct EditNotesView: View {
             ToolbarItem(placement: .keyboard) {
                 HStack {
                     Spacer()
-                    Button("Done") {
+                    Button {
                         self.hideKeyboard()
-                        // 1. Save to Core Data
-//                        self.updateNote(title: title, content: content)
-                        // 2. Save to post api
+                        vm.postNotes(title: title, content: content)
+                    } label: {
+                        Text("Done")
+                            .bold()
+                            .font(.title3)
+                            .foregroundStyle(.black)
                     }
                 }
             }
         }
         .onAppear {
-            
             if let note = note {
                 self.title = note.title ?? ""
                 self.content = note.content ?? ""
             }
         }
-                    
     }
     
-    // MARK: Core Data Operations
-//
-//    func updateNote(title: String, content: String) {
-//        
-//        if (title.isEmpty) && (content.isEmpty) {
-//            return
-//        }
-//        
-//        guard let note = note else { return }
-//        
-//        vm.updateNote(note, title: title, content: content)
-//    }
 }
