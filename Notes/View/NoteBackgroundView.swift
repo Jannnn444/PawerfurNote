@@ -8,18 +8,18 @@
 import Foundation
 import SwiftUI
 
-struct BackgroundView: View {
+struct NoteBackgroundView: View {
     var body: some View {
         ZStack {
             // MARK: - 3. DEPH
             
             Color(.noteDarktea)
-                .cornerRadius(40)
+                .cornerRadius(30)
                 .offset(y: 12)
             // MARK: - 2. LiGHT
             
             Color(.noteMilktea)
-                .cornerRadius(40)
+                .cornerRadius(30)
                 .offset(y: 3)
                 .opacity(0.7)
             
@@ -32,13 +32,13 @@ struct BackgroundView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .cornerRadius(40)
+            .cornerRadius(30)
                 
         }
     }
 }
 
 #Preview {
-    BackgroundView()
+    NoteBackgroundView()
         .padding()
 }

@@ -27,7 +27,7 @@ class NotesViewModel: ObservableObject {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let notes):
-                    print("✅ Success. Receving notes: \(notes.result)")
+                    print("✅ Success @Receving notes: \(notes.result)")
                     self.notes = notes.result
                 case .failure(let error):
                     print("⚠️ Error occurred: \(self.errorMessages ?? "Unknown error")")

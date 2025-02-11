@@ -12,7 +12,7 @@ struct ListCellView: View {
     
     var body: some View {
         ZStack (alignment: .leading) {
-        BackgroundView()
+        NoteBackgroundView()
             VStack(alignment: .leading, spacing: 5) {
                 Text(note.title ?? "New Note")
                     .lineLimit(1)
@@ -28,12 +28,4 @@ struct ListCellView: View {
             .frame(width: 300, height: 150, alignment: .leading) // Ensure full width alignment
         }
     }
-    
-//    private func noteBackgroundColor(_ note: NoteEntity) -> Color {
-//        if let title = note.title, title.contains("Important") {
-//            return .red.opacity(0.2) // Highlight important notes
-//        } else {
-//            return .noteMilktea.opacity(0.3) // Default background
-//        }
-//    }
 }
