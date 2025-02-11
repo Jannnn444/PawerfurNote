@@ -22,3 +22,21 @@ struct NoteResponse: Codable, Hashable {
     let result: [Note]
 }
 
+struct NotePostResponse: Codable {
+    let message: String
+    let result: Bool
+    let statusCode: Int
+}
+
+struct NotePayloadForPost: Codable, Hashable {
+    let title: String
+    let content: String
+}
+
+/* 
+ {
+  "message": "Note was successfully created.",
+  "result": true,
+  "statusCode": 200
+}
+ */

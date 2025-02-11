@@ -61,8 +61,12 @@ struct NotesView: View {
                 
             }
         }.ignoresSafeArea()
-            .background(.black)
+         .background(.black)
+         .onAppear() {
+             noteViewModel.postNotes(title: "Meow", content: "Hit!!!")
+         }
     }
+        
     
     // MARK: Core Data Operations
     

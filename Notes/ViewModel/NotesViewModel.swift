@@ -39,37 +39,25 @@ class NotesViewModel: ObservableObject {
     
     func postNotes(title: String, content: String) {
         let url = "/api/notes"
-        
-        let dateFormatter = ISO8601DateFormatter()
-        
-        // The payload dictionary needs to be explicitly encoded as JSON before sending it in the network request.
-        let newNote: [String: Any] = [
-            "id": "UUID().uuidString",
-            "title": title,
-            "content": content,
-            "favorite": false,  // Convert boolean to string if needed
-            "created_at": "dateFormatter.string(from: Date())",
-            "updated_at": "dateFormatter.string(from: Date())"
-        ]
+        print("📩 Posting to post note with title: \(title) and content: \(content)")
 
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: newNote, options: .prettyPrinted) else {
-              print("⚠️ Failed to encode note data")
-              return
-          }
+        // Create JSON payload
+        let newNote = NotePayloadForPost(title: title, content: content)
 
-          // Print JSON before sending
-          if let jsonString = String(data: jsonData, encoding: .utf8) {
-              print("📩 JSON Payload: \(jsonString)")
-          }
-          
-          print("✅ Posting note to url: \(url)...")
-        
-        NetworkManager.shared.postRequest(url: url, payload: jsonData) { (result: Result<NoteResponse, Error>) in
+        // Ensure JSON encoding is correct
+        guard let jsonData = try? JSONEncoder().encode(newNote) else {
+            print("❌ Failed to encode JSON")
+            return
+        }
+
+        print("✅ Encoded JSON: \(String(data: jsonData, encoding: .utf8) ?? "nil")")
+
+        // Call NetworkManager to send the request
+        NetworkManager.shared.postRequest(url: url, payload: newNote) { (result: Result<NotePostResponse, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    print("✅ Success. Posted note: \(response.result)")
-//                    self.fetchNotes() // Refresh notes after posting
+                    print("✅ Success! @Message: \(response.message), status: \(response.statusCode)")
                 case .failure(let error):
                     print("⚠️ Error occurred: \(error.localizedDescription)")
                     self.handleError(error)
@@ -78,30 +66,6 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    
-//    func createNote() -> Note {
-//        let newNote = Note(id: UUID(), title: <#T##String#>, content: <#T##String#>, favorite: <#T##Bool#>, created_at: <#T##String#>, updated_at: <#T##String#>)
-//        newNote.id = UUID()
-//        newNote.timestamp = Date()
-//        saveContext()
-//        fetchNotes() // Refresh notes list
-////        getNotes()
-//        
-//        return newNote
-//    }
-
-    func deleteNote(_ note: NoteEntity) {
-//        manager.container.viewContext.delete(note)
-     
-//        fetchNotes() // Refresh notes list
-    }
-
-    func updateNote(_ note: NoteEntity, title: String, content: String) {
-        note.title = title
-        note.content = content
-   
-//        fetchNotes() // Refresh notes list
-    }
     
     func searchNotes(with searchText: String) {
 //        fetchNotes(with: searchText)

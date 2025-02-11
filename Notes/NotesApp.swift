@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct NotesToDocApp: App {
-    let coreDataManager = CoreDataManager()
     @StateObject var notesViewModel: NotesViewModel
 
         init() {

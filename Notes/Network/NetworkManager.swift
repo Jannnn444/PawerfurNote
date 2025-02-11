@@ -34,6 +34,7 @@ class NetworkManager {
             completion(.failure(NetworkError.urlError))
             return
         }
+        // http://206.189.40.30/api/notes
         // http://206.189.40.30:4040/api/product
         print("DECODE Url: \(urlObject)")
         
@@ -82,7 +83,7 @@ class NetworkManager {
         
         // T is dynamic type, product type, title: string and price: float(decimal)
         // guard against any unaccepted url strings and create URL object
-        guard let url = URL(string: "http://\(apiDomain):\(PORT)\(url)") else {
+        guard let url = URL(string: "http://\(apiDomain):\(url)") else {
             completion(.failure(NetworkError.urlError))
             return
         }
