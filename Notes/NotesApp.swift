@@ -13,7 +13,7 @@ struct NotesToDocApp: App {
     @StateObject var notesViewModel: NotesViewModel
 
         init() {
-            let viewModel = NotesViewModel(manager: coreDataManager)
+            let viewModel = NotesViewModel()
             _notesViewModel = StateObject(wrappedValue: viewModel)
         }
 

@@ -8,30 +8,32 @@
 import SwiftUI
 
 struct ListCellView: View {
-    var note: NoteEntity
+    var note: Note
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(note.title ?? "New Note")
-                .lineLimit(1)
-                .font(.title3)
-                .fontWeight(.bold)
-            Text(note.content ?? "No context available")
-                .lineLimit(1)
-                .fontWeight(.light)
+        ZStack (alignment: .leading) {
+        BackgroundView()
+            VStack(alignment: .leading, spacing: 5) {
+                Text(note.title ?? "New Note")
+                    .lineLimit(1)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.noteBlack)
+                Text(note.content ?? "No context available")
+                    .lineLimit(1)
+                    .fontWeight(.light)
+                    .foregroundStyle(.noteBlack)
+            }
+            .padding()
+            .frame(width: 300, height: 150, alignment: .leading) // Ensure full width alignment
         }
-       
-        .padding(.trailing)
-        .frame(width: 400 ,height: 80)
-        .background(noteBackgroundColor(note))
-        .cornerRadius(10)
     }
     
-    private func noteBackgroundColor(_ note: NoteEntity) -> Color {
-        if let title = note.title, title.contains("Important") {
-            return .red.opacity(0.2) // Highlight important notes
-        } else {
-            return .noteMilktea.opacity(0.3) // Default background
-        }
-    }
+//    private func noteBackgroundColor(_ note: NoteEntity) -> Color {
+//        if let title = note.title, title.contains("Important") {
+//            return .red.opacity(0.2) // Highlight important notes
+//        } else {
+//            return .noteMilktea.opacity(0.3) // Default background
+//        }
+//    }
 }

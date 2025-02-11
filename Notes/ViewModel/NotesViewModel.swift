@@ -10,41 +10,13 @@ import CoreData
 
 class NotesViewModel: ObservableObject {
     
-    let manager: CoreDataManager
-    @Published var notes: [NoteEntity] = []
+    @Published var notes: [Note] = []
     @Published var isDataLoaded = false
     @Published var errorMessages: String? = nil
     @Published var note: Note?
 
-    init(manager: CoreDataManager) {
-        self.manager = manager
-        loadData()
-    }
-    
-    func loadData() {
-        manager.loadCoreData { [weak self] success in
-            DispatchQueue.main.async {
-                self?.isDataLoaded = success
-                if success {
-                    self?.fetchNotes()
-                }
-            }
-        }
-    }
-
-    func fetchNotes(with searchText: String = "")  {
-        let request: NSFetchRequest<NoteEntity> = NoteEntity.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-        
-        if !searchText.isEmpty {
-            request.predicate = NSPredicate(format: "title CONTAINS %@", searchText)
-        }
-
-        do {
-            notes = try manager.container.viewContext.fetch(request)
-        } catch {
-            print("⚠️ Error fetching notes: \(error)")
-        }
+    init() {
+        getNotes() // it runs first when it initialize itself
     }
 
     func getNotes() {
@@ -56,6 +28,7 @@ class NotesViewModel: ObservableObject {
                 switch result {
                 case .success(let notes):
                     print("✅ Success. Receving notes: \(notes.result)")
+                    self.notes = notes.result
                 case .failure(let error):
                     print("⚠️ Error occurred: \(self.errorMessages ?? "Unknown error")")
                     self.handleError(error)
@@ -96,7 +69,7 @@ class NotesViewModel: ObservableObject {
                 switch result {
                 case .success(let response):
                     print("✅ Success. Posted note: \(response.result)")
-                    self.fetchNotes() // Refresh notes after posting
+//                    self.fetchNotes() // Refresh notes after posting
                 case .failure(let error):
                     print("⚠️ Error occurred: \(error.localizedDescription)")
                     self.handleError(error)
@@ -106,45 +79,39 @@ class NotesViewModel: ObservableObject {
     }
 
     
-    func createNote() -> NoteEntity {
-        let newNote = NoteEntity(context: manager.container.viewContext)
-        newNote.id = UUID()
-        newNote.timestamp = Date()
-        saveContext()
-        fetchNotes() // Refresh notes list
-//        getNotes()
-        
-        return newNote
-    }
+//    func createNote() -> Note {
+//        let newNote = Note(id: UUID(), title: <#T##String#>, content: <#T##String#>, favorite: <#T##Bool#>, created_at: <#T##String#>, updated_at: <#T##String#>)
+//        newNote.id = UUID()
+//        newNote.timestamp = Date()
+//        saveContext()
+//        fetchNotes() // Refresh notes list
+////        getNotes()
+//        
+//        return newNote
+//    }
 
     func deleteNote(_ note: NoteEntity) {
-        manager.container.viewContext.delete(note)
-        saveContext()
-        fetchNotes() // Refresh notes list
+//        manager.container.viewContext.delete(note)
+     
+//        fetchNotes() // Refresh notes list
     }
 
     func updateNote(_ note: NoteEntity, title: String, content: String) {
         note.title = title
         note.content = content
-        saveContext()
-        fetchNotes() // Refresh notes list
+   
+//        fetchNotes() // Refresh notes list
     }
     
     func searchNotes(with searchText: String) {
-        fetchNotes(with: searchText)
+//        fetchNotes(with: searchText)
     } 
     
     func addToFavorite() {
         
     }
 
-    private func saveContext() {
-        do {
-            try manager.container.viewContext.save()
-        } catch {
-            print("Error saving context: \(error)")
-        }
-    }
+   
     
     private func handleError(_ error: Error) {
            self.errorMessages = error.localizedDescription

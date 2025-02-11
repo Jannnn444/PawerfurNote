@@ -11,7 +11,7 @@ struct EditNotesView: View {
     
     @EnvironmentObject var vm: NotesViewModel
     
-    @State var note: NoteEntity?
+    @State var note: Note?
     @State private var title: String = ""
     @State private var content: String = ""
     
@@ -50,7 +50,7 @@ struct EditNotesView: View {
                     Button("Done") {
                         self.hideKeyboard()
                         // 1. Save to Core Data
-                        self.updateNote(title: title, content: content)
+//                        self.updateNote(title: title, content: content)
                         // 2. Save to post api
                     }
                 }
@@ -67,15 +67,15 @@ struct EditNotesView: View {
     }
     
     // MARK: Core Data Operations
-
-    func updateNote(title: String, content: String) {
-        
-        if (title.isEmpty) && (content.isEmpty) {
-            return
-        }
-        
-        guard let note = note else { return }
-        
-        vm.updateNote(note, title: title, content: content)
-    }
+//
+//    func updateNote(title: String, content: String) {
+//        
+//        if (title.isEmpty) && (content.isEmpty) {
+//            return
+//        }
+//        
+//        guard let note = note else { return }
+//        
+//        vm.updateNote(note, title: title, content: content)
+//    }
 }
