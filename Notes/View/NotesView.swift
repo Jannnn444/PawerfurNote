@@ -15,6 +15,7 @@ struct NotesView: View {
     @State var showOverlay: Bool = false
     @State private var searchText = ""
     @State private var selectedNote: Note?
+    @State private var isCreatingNote = false
     
     var body: some View {
         ScrollView {
@@ -33,9 +34,17 @@ struct NotesView: View {
                             .padding(.top)
                             .padding(.bottom, -5)
                         Spacer()
+                        Text("!")
+                            .fontDesign(.rounded)
+                            .foregroundStyle(.noteAlmond)
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(.leading)
+                            .padding(.top)
+                            .padding(.bottom, -5)
                         
                         Button {
-                            createNewNote()
+                            createNote()
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title)
@@ -58,18 +67,22 @@ struct NotesView: View {
                 .sheet(item: $selectedNote) { note in
                     EditNotesView(note: note)
                 }
-                
             }
         }.ignoresSafeArea()
          .background(.black)
          .onAppear() {
 //             noteViewModel.postNotes(title: "Meow", content: "Hit!!!")
+//             noteViewModel.postNotes(title: "Hi baby 20250212", content: "Today gonna do the button :)")
+             noteViewModel.getNotes()
          }
     }
         
-    private func createNewNote() {
-        selectedNote = nil
-//        selectedNote = vm.createNote()
+    
+    private func createNote() {
+        let newTitle = "New Note"
+        let newContent = ""
+        noteViewModel.postNotes(title: newTitle, content: newContent)
+        noteViewModel.getNotes()
     }
 }
 

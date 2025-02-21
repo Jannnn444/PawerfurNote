@@ -63,6 +63,9 @@ struct EditNotesView: View {
             if let note = note {
                 self.title = note.title ?? ""
                 self.content = note.content ?? ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.contentEditorInFocus = true
+                }
             }
         }
     }
