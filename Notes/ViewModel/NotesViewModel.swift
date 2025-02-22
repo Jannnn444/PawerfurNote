@@ -58,7 +58,8 @@ class NotesViewModel: ObservableObject {
                 switch result {
                 case .success(let response):
                     print("✅ Success! @Message: \(response.message), status: \(response.statusCode)")
-                    // Fetch the updated list of notes after sucessful creation
+                    // Fetch the updated list of notes After Sucessful Creation!
+                    self.getNotes()
                 case .failure(let error):
                     print("⚠️ Error occurred: \(error.localizedDescription)")
                     self.handleError(error)

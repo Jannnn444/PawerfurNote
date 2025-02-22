@@ -44,7 +44,7 @@ struct NotesView: View {
                             .padding(.bottom, -5)
                         
                         Button {
-                            createNote()
+                            isCreatingNote = true
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title)
@@ -67,17 +67,17 @@ struct NotesView: View {
                 .sheet(item: $selectedNote) { note in
                     EditNotesView(note: note)
                 }
+                .sheet(isPresented: $isCreatingNote) {
+                        EditNotesView(note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
+                   }
             }
         }.ignoresSafeArea()
          .background(.black)
          .onAppear() {
-//             noteViewModel.postNotes(title: "Meow", content: "Hit!!!")
-//             noteViewModel.postNotes(title: "Hi baby 20250212", content: "Today gonna do the button :)")
              noteViewModel.getNotes()
          }
     }
         
-    
     private func createNote() {
         let newTitle = "New Note"
         let newContent = ""

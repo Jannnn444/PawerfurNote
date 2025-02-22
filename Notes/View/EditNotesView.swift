@@ -10,6 +10,7 @@ import SwiftUI
 struct EditNotesView: View {
     
     @EnvironmentObject var vm: NotesViewModel
+    @Environment(\.dismiss) var dismiss
     
     @State var note: Note?
     @State private var title: String = ""
@@ -50,6 +51,8 @@ struct EditNotesView: View {
                     Button {
                         self.hideKeyboard()
                         vm.postNotes(title: title, content: content)
+                        dismiss()
+                        vm.getNotes() // Fetch new updated!
                     } label: {
                         Text("Done")
                             .bold()
