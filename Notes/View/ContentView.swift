@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var notesViewModel: NotesViewModel
     @State var IsLogIn: Bool = false
+    @State var byeMsg = ""
     
     var body: some View {
         VStack{
@@ -38,6 +39,7 @@ struct ContentView: View {
                 // MARK: - ✅ Log-Out Button
                 Button() {
                     IsLogIn = false
+                    byeMsg = "Successfully log out !"
                 } label: {
                     Text("Log out")
                         .padding()
@@ -47,9 +49,14 @@ struct ContentView: View {
                     
                 }
             }
-            .fullScreenCover(isPresented: $IsLogIn){
+            .fullScreenCover(isPresented: $IsLogIn) {
                 NotesView()
             }
+            
+            Text("\(byeMsg)")
+                .font(.body)
+                .foregroundColor(.noteMilktea)
+                .padding()
         }
         .ignoresSafeArea()
     }

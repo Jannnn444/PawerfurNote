@@ -12,6 +12,7 @@ struct NotesView: View {
     @State var showConfirmationDialogue: Bool = false
     @State private var selectedNote: Note?
     @State private var isCreatingNote = false
+    @State private var isHeadToHome = false
 
     var body: some View {
         NavigationView {
@@ -30,13 +31,23 @@ struct NotesView: View {
                             .padding(.bottom, -5)
                         Spacer()
                         Button {
+                            isHeadToHome = true
+                        } label: {
+                            Image(systemName: "house")
+                                .font(.title)
+                                .foregroundColor(.noteAlmond)
+                        }
+            
+                        Spacer()
+                        
+                        Button {
                             isCreatingNote = true
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title)
                                 .foregroundColor(.noteAlmond)
                         }
-                        .padding(.trailing)
+                        Spacer()
                     }
                     
                     List {
@@ -73,6 +84,9 @@ struct NotesView: View {
         .background(.black)
         .onAppear {
             noteViewModel.getNotes()
+        }
+        .fullScreenCover(isPresented: $isHeadToHome) {
+            ContentView()
         }
     }
 
