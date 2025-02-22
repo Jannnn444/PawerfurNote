@@ -25,7 +25,7 @@ struct NotesView: View {
                             .foregroundStyle(.noteAlmond)
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .padding(.leading)
+                            .padding(.horizontal)
                             .padding(.top)
                             .padding(.bottom, -5)
                         Spacer()
@@ -36,7 +36,7 @@ struct NotesView: View {
                                 .font(.title)
                                 .foregroundColor(.noteAlmond)
                         }
-                        .padding()
+                        .padding(.trailing)
                     }
                     
                     List {
@@ -55,6 +55,7 @@ struct NotesView: View {
                             }
                         }
                         .listRowBackground(Color.clear)
+//                        .listStyle(PlainListStyle())
                     }
                     .scrollContentBackground(.hidden) // Hide default list background
                     .background(Color(.noteBlack))

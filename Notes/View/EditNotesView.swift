@@ -17,34 +17,32 @@ struct EditNotesView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                TextField("Title", text: $title, axis: .vertical)
-                    .font(.title.bold())
-                    .submitLabel(.next)
-                    .onChange(of: title, {
-                        guard let newValueLastChar = title.last else { return }
-                        if newValueLastChar == "\n" {
-                            title.removeLast()
-                            contentEditorInFocus = true
-                        }
-                    })
-                
-                TextEditorView(string: $content)
-                    .scrollDisabled(true)
-                    .font(.title3)
-                    .focused($contentEditorInFocus)
-                
-                
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    TextField("Title", text: $title, axis: .vertical)
+                        .font(.title.bold())
+                        .submitLabel(.next)
+                        .onChange(of: title, {
+                            guard let newValueLastChar = title.last else { return }
+                            if newValueLastChar == "\n" {
+                                title.removeLast()
+                                contentEditorInFocus = true
+                            }
+                        })
+                    
+                    TextEditorView(string: $content)
+                        .scrollDisabled(true)
+                        .font(.title3)
+                        .focused($contentEditorInFocus)
+                }
+                .padding(10)
             }
-            .padding(10)
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            // ✅ Done Button in Toolbar
-            ToolbarItem(placement: .keyboard) {
-                HStack {
-                    Spacer()
+            .navigationTitle("Edit Note")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // ✅ Done Button (always visible)
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         self.hideKeyboard()
                         vm.postNotes(title: title, content: content)
@@ -57,31 +55,31 @@ struct EditNotesView: View {
                             .foregroundStyle(.black)
                     }
                 }
-            }
-            // ✅ Delete Button in Toolbar
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(role: .destructive) {
-                    if let note = note {
-                        vm.deleteNote(note) // Delete the note
-                        dismiss() // Close the sheet
-                        vm.getNotes() // Refresh list
+                
+                // ✅ Delete Button (only if note exists)
+                if note != nil {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(role: .destructive) {
+                            vm.deleteNote(note!) // Delete the note
+                            dismiss() // Close the sheet
+//                          vm.getNotes() Refresh list
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
                     }
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundColor(.red)
                 }
             }
-            
-        }
-        .onAppear {
-            if let note = note {
-                self.title = note.title ?? ""
-                self.content = note.content ?? ""
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.contentEditorInFocus = true
+            .onAppear {
+                print("Note: \(String(describing: note))") // Debugging
+                if let note = note {
+                    self.title = note.title ?? ""
+                    self.content = note.content ?? ""
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.contentEditorInFocus = true
+                    }
                 }
             }
         }
     }
-    
 }
