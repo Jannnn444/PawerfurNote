@@ -52,7 +52,7 @@ struct EditNotesView: View {
                         Text("Done")
                             .bold()
                             .font(.title3)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.noteDarktea)
                     }
                 }
                 

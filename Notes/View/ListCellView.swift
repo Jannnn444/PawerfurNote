@@ -18,11 +18,11 @@ struct ListCellView: View {
                     .lineLimit(1)
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundStyle(.noteBlack)
+                    .foregroundStyle(.noteDarktea)
                 Text(note.content ?? "No context available")
                     .lineLimit(1)
                     .font(.title3)
-                    .foregroundStyle(.noteBlack)
+                    .foregroundStyle(.noteDarktea)
             }
             .padding()
             .frame(width: 300, height: 150, alignment: .leading) // Ensure full width alignment

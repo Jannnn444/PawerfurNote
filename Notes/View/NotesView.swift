@@ -17,18 +17,16 @@ struct NotesView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(.noteBlack).edgesIgnoringSafeArea(.all)
+                Color(.noteMilktea).edgesIgnoringSafeArea(.all)
                 
                 VStack {
                     HStack {
                         Text("♡♥︎ Notes ♥︎♡")
                             .fontDesign(.rounded)
                             .foregroundStyle(.noteAlmond)
-                            .font(.largeTitle)
+                            .font(.title)
                             .fontWeight(.bold)
                             .padding(.horizontal)
-                            .padding(.top)
-                            .padding(.bottom, -5)
                         Spacer()
                         Button {
                             isHeadToHome = true
@@ -48,7 +46,7 @@ struct NotesView: View {
                                 .foregroundColor(.noteAlmond)
                         }
                         Spacer()
-                    }
+                    }.padding()
                     
                     List {
                         ForEach(noteViewModel.notes) { note in
@@ -69,7 +67,7 @@ struct NotesView: View {
 //                        .listStyle(PlainListStyle())
                     }
                     .scrollContentBackground(.hidden) // Hide default list background
-                    .background(Color(.noteBlack))
+                    .background(Color(.noteAlmond))
                 }
                 .padding(.top, 30)
                 .sheet(item: $selectedNote) { note in
@@ -81,7 +79,7 @@ struct NotesView: View {
             }
         }
         .ignoresSafeArea()
-        .background(.black)
+        .background(.noteAlmond)
         .onAppear {
             noteViewModel.getNotes()
         }

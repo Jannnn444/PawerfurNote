@@ -14,12 +14,13 @@ struct NoteBackgroundView: View {
             // MARK: - 3. DEPH
             
             Color(.noteDarktea)
-                .cornerRadius(30)
-                .offset(y: 12)
+                .cornerRadius(36)
+                .offset(y: 10)
+            
             // MARK: - 2. LiGHT
             
             Color(.noteMilktea)
-                .cornerRadius(30)
+                .cornerRadius(35)
                 .offset(y: 3)
                 .opacity(0.7)
             
@@ -32,7 +33,7 @@ struct NoteBackgroundView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .cornerRadius(30)
+            .cornerRadius(34)
                 
         }
     }
