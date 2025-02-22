@@ -33,7 +33,13 @@ struct NotePayloadForPost: Codable, Hashable {
     let content: String
 }
 
-/* 
+struct DeleteNoteResponse: Codable, Hashable {
+    let id: String
+    let title: String
+    let content: String
+}
+
+/*
  {
   "message": "Note was successfully created.",
   "result": true,

@@ -68,6 +68,14 @@ class NotesViewModel: ObservableObject {
         }
     }
     
+    func deleteNote(_ note: Note) {
+        print("🗑 Deleting note with ID: \(note.id) (No API call)")
+        
+        DispatchQueue.main.async {
+            self.notes.removeAll { $0.id == note.id } // Remove note by id from note array
+        }
+    }
+    
     func searchNotes(with searchText: String) {
 //        fetchNotes(with: searchText)
     } 

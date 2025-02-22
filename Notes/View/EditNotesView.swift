@@ -29,18 +29,19 @@ struct EditNotesView: View {
                             contentEditorInFocus = true
                         }
                     })
-                    
+                
                 TextEditorView(string: $content)
                     .scrollDisabled(true)
                     .font(.title3)
-                .focused($contentEditorInFocus)
+                    .focused($contentEditorInFocus)
                 
-    
+                
             }
             .padding(10)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            // ✅ Done Button in Toolbar
             ToolbarItem(placement: .keyboard) {
                 HStack {
                     Spacer()
@@ -57,6 +58,20 @@ struct EditNotesView: View {
                     }
                 }
             }
+            // ✅ Delete Button in Toolbar
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(role: .destructive) {
+                    if let note = note {
+                        vm.deleteNote(note) // Delete the note
+                        dismiss() // Close the sheet
+                        vm.getNotes() // Refresh list
+                    }
+                } label: {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+            
         }
         .onAppear {
             if let note = note {

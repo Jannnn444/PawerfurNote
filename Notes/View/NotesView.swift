@@ -6,22 +6,17 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct NotesView: View {
-
-    @ObservedObject var noteViewModel = NotesViewModel() // Observed instead of State cuz we wwant the same instance
+    @ObservedObject var noteViewModel = NotesViewModel()
     @State var showConfirmationDialogue: Bool = false
-    @State var showOverlay: Bool = false
-    @State private var searchText = ""
     @State private var selectedNote: Note?
     @State private var isCreatingNote = false
-    
+
     var body: some View {
-        ScrollView {
+        NavigationView {
             ZStack {
-                Color(.noteBlack)
-                    .edgesIgnoringSafeArea(.all)
+                Color(.noteBlack).edgesIgnoringSafeArea(.all)
                 
                 VStack {
                     HStack {
@@ -34,15 +29,6 @@ struct NotesView: View {
                             .padding(.top)
                             .padding(.bottom, -5)
                         Spacer()
-                        Text("!")
-                            .fontDesign(.rounded)
-                            .foregroundStyle(.noteAlmond)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .padding(.leading)
-                            .padding(.top)
-                            .padding(.bottom, -5)
-                        
                         Button {
                             isCreatingNote = true
                         } label: {
@@ -53,31 +39,49 @@ struct NotesView: View {
                         .padding()
                     }
                     
-                    ForEach(noteViewModel.notes) { note in
-                        Button {
-                            selectedNote = note
-                        } label: {
-                            ListCellView(note: note)
-                                .padding()
+                    List {
+                        ForEach(noteViewModel.notes) { note in
+                            Button {
+                                selectedNote = note
+                            } label: {
+                                ListCellView(note: note)
+                                    .padding()
+                            }
                         }
+                        .onDelete { indexSet in
+                            indexSet.forEach { index in
+                                let noteToDelete = noteViewModel.notes[index]
+                                noteViewModel.deleteNote(noteToDelete) // Delete only this note
+                            }
+                        }
+                        .listRowBackground(Color.clear)
                     }
-                } //: VSTACK
-                .padding()
+                    .scrollContentBackground(.hidden) // Hide default list background
+                    .background(Color(.noteBlack))
+                }
                 .padding(.top, 30)
                 .sheet(item: $selectedNote) { note in
                     EditNotesView(vm: noteViewModel, note: note)
                 }
                 .sheet(isPresented: $isCreatingNote) {
                     EditNotesView(vm: noteViewModel, note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
-                   }
+                }
             }
-        }.ignoresSafeArea()
-         .background(.black)
-         .onAppear() {
-             noteViewModel.getNotes()
-         }
+        }
+        .ignoresSafeArea()
+        .background(.black)
+        .onAppear {
+            noteViewModel.getNotes()
+        }
     }
-        
+
+    private func deleteNote(at offsets: IndexSet) {
+        for index in offsets {
+            let noteToDelete = noteViewModel.notes[index]
+            noteViewModel.deleteNote(noteToDelete)
+        }
+    }
+
     private func createNote() {
         let newTitle = "New Note"
         let newContent = ""
