@@ -10,7 +10,7 @@ import CoreData
 
 struct NotesView: View {
 
-    @StateObject var noteViewModel = NotesViewModel()
+    @ObservedObject var noteViewModel = NotesViewModel() // Observed instead of State cuz we wwant the same instance
     @State var showConfirmationDialogue: Bool = false
     @State var showOverlay: Bool = false
     @State private var searchText = ""
@@ -65,10 +65,10 @@ struct NotesView: View {
                 .padding()
                 .padding(.top, 30)
                 .sheet(item: $selectedNote) { note in
-                    EditNotesView(note: note)
+                    EditNotesView(vm: noteViewModel, note: note)
                 }
                 .sheet(isPresented: $isCreatingNote) {
-                        EditNotesView(note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
+                    EditNotesView(vm: noteViewModel, note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
                    }
             }
         }.ignoresSafeArea()

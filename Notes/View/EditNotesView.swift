@@ -9,20 +9,16 @@ import SwiftUI
 
 struct EditNotesView: View {
     
-    @EnvironmentObject var vm: NotesViewModel
-    @Environment(\.dismiss) var dismiss
-    
+    @ObservedObject var vm: NotesViewModel
     @State var note: Note?
     @State private var title: String = ""
     @State private var content: String = ""
-    
     @FocusState private var contentEditorInFocus: Bool
-
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-        
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                                
                 TextField("Title", text: $title, axis: .vertical)
                     .font(.title.bold())
                     .submitLabel(.next)
