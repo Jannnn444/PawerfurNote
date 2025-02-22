@@ -20,7 +20,7 @@ struct NotesView: View {
                 
                 VStack {
                     HStack {
-                        Text("Notes")
+                        Text("♡♥︎ Notes ♥︎♡")
                             .fontDesign(.rounded)
                             .foregroundStyle(.noteAlmond)
                             .font(.largeTitle)

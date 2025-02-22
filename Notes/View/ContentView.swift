@@ -10,9 +10,16 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var notesViewModel: NotesViewModel
     @State var IsLogIn: Bool = false
-
+    
     var body: some View {
         VStack{
+            // MARK: - ✅ Greetinga
+            Text("Hi Welcome to Pawerfur Note 🐾")
+                .font(.title2)
+                .foregroundColor(.noteMilktea)
+                .padding()
+            
+            // MARK: - ✅ Check Register State
             if IsLogIn {
                 NotesView()
                     .background(.black)
@@ -20,18 +27,34 @@ struct ContentView: View {
                 Text("Please log in first ... ")
                     .font(.body)
                     .foregroundColor(.noteMilktea)
-            }
-            
-            Button() {
-                IsLogIn = true
-            } label: {
-                Text("Login")
                     .padding()
-                    .foregroundColor(.noteIcyGrey)
-                    .background(.noteDarktea, in: .capsule)
-                    .frame(width: 80, height: 50)
-//                    .cornerRadius(30)
+            }
+            HStack{
+                // MARK: - ✅ Log-In Button
+                Button() {
+                    IsLogIn = true
+                } label: {
+                    Text("Login")
+                        .padding()
+                        .frame(width: 120, height: 50)
+                        .foregroundColor(.noteIcyGrey)
+                        .background(.noteDarktea, in: .capsule)
+                        
+                }
+                // MARK: - ✅ Log-Out Button
+                Button() {
+                    IsLogIn = false
+                } label: {
+                    Text("Log out")
+                        .padding()
+                        .frame(width: 120, height: 50)
+                        .foregroundColor(.noteIcyGrey)
+                        .background(.noteDarktea, in: .capsule)
+                        
+                }
             }
         }
+        .ignoresSafeArea()
     }
 }
+
