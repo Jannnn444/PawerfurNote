@@ -19,16 +19,11 @@ struct ContentView: View {
                 .foregroundColor(.noteMilktea)
                 .padding()
             
-            // MARK: - ✅ Check Register State
-            if IsLogIn {
-                NotesView()
-                    .background(.black)
-            } else {
-                Text("Please log in first ... ")
-                    .font(.body)
-                    .foregroundColor(.noteMilktea)
-                    .padding()
-            }
+            Text("Please log in first ... ")
+                .font(.body)
+                .foregroundColor(.noteMilktea)
+                .padding()
+            
             HStack{
                 // MARK: - ✅ Log-In Button
                 Button() {
@@ -39,7 +34,6 @@ struct ContentView: View {
                         .frame(width: 120, height: 50)
                         .foregroundColor(.noteIcyGrey)
                         .background(.noteDarktea, in: .capsule)
-                        
                 }
                 // MARK: - ✅ Log-Out Button
                 Button() {
@@ -50,8 +44,11 @@ struct ContentView: View {
                         .frame(width: 120, height: 50)
                         .foregroundColor(.noteIcyGrey)
                         .background(.noteDarktea, in: .capsule)
-                        
+                    
                 }
+            }
+            .fullScreenCover(isPresented: $IsLogIn){
+                NotesView()
             }
         }
         .ignoresSafeArea()
