@@ -11,6 +11,17 @@ struct ContentView: View {
     @EnvironmentObject var notesViewModel: NotesViewModel
     @State var IsLogIn: Bool = false
     @State var byeMsg = ""
+    @State var notyetLoginMsg = ""
+    
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = UIColor.clear // Makes the navbar transparent
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white] // Adjust text color
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
     
     var body: some View {
         VStack{
@@ -20,7 +31,7 @@ struct ContentView: View {
                 .foregroundColor(.noteMilktea)
                 .padding()
             
-            Text("Please log in first ... ")
+            Text("\(notyetLoginMsg)")
                 .font(.body)
                 .foregroundColor(.noteMilktea)
                 .padding()
@@ -29,6 +40,7 @@ struct ContentView: View {
                 // MARK: - ✅ Log-In Button
                 Button() {
                     IsLogIn = true
+                    notesViewModel.notyetLogin = false
                 } label: {
                     Text("Login")
                         .padding()
@@ -38,8 +50,15 @@ struct ContentView: View {
                 }
                 // MARK: - ✅ Log-Out Button
                 Button() {
-                    IsLogIn = false
-                    byeMsg = "Successfully log out !"
+                    if  notesViewModel.notyetLogin {
+                        notyetLoginMsg = "Please log in first ... "
+                    } else if IsLogIn == false && notesViewModel.notyetLogin == true {
+                        byeMsg = ""
+                    } else {
+                        IsLogIn = false
+                        byeMsg = "Successfully log out !"
+                        notesViewModel.notyetLogin = true
+                    }
                 } label: {
                     Text("Log out")
                         .padding()

@@ -14,6 +14,7 @@ class NotesViewModel: ObservableObject {
     @Published var isDataLoaded = false
     @Published var errorMessages: String? = nil
     @Published var note: Note?
+    @Published var notyetLogin = true
 
     init() {
         getNotes() // it runs first when it initialize itself

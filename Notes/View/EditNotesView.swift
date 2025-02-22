@@ -70,6 +70,7 @@ struct EditNotesView: View {
                     }
                 }
             }
+            .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
                 print("Note: \(String(describing: note))") // Debugging
                 if let note = note {
