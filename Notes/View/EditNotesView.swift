@@ -33,7 +33,7 @@ struct EditNotesView: View {
                     
                     TextEditorView(string: $content)
                         .scrollDisabled(true)
-                        .font(.title3)
+                        .font(.system(size: 10))
                         .focused($contentEditorInFocus)
                 }
                 .padding(10)
