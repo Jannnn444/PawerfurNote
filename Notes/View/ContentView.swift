@@ -41,6 +41,7 @@ struct ContentView: View {
                 Button() {
                     IsLogIn = true
                     notesViewModel.notyetLogin = false
+                    byeMsg = ""
                 } label: {
                     Text("Login")
                         .padding()
@@ -48,15 +49,14 @@ struct ContentView: View {
                         .foregroundColor(.noteIcyGrey)
                         .background(.noteDarktea, in: .capsule)
                 }
+                
                 // MARK: - ✅ Log-Out Button
                 Button() {
                     if  notesViewModel.notyetLogin {
-                        notyetLoginMsg = "Please log in first ... "
-                    } else if IsLogIn == false && notesViewModel.notyetLogin == true {
-                        byeMsg = ""
+                        byeMsg = "Please log in first! "
                     } else {
                         IsLogIn = false
-                        byeMsg = "Successfully log out !"
+                        byeMsg = "Successfully log out!"
                         notesViewModel.notyetLogin = true
                     }
                 } label: {
