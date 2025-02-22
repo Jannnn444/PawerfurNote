@@ -56,6 +56,7 @@ struct NotesView: View {
                                 ListCellView(note: note)
                                     .padding()
                             }
+                            .listRowSeparator(.hidden)
                         }
                         .onDelete { indexSet in
                             indexSet.forEach { index in
