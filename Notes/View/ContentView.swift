@@ -13,6 +13,9 @@ struct ContentView: View {
     @State var byeMsg = ""
     @State var notyetLoginMsg = ""
     
+    @State private var username: String = ""  // For first TextField
+    @State private var password: String = ""  // For second TextField
+    
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -31,10 +34,22 @@ struct ContentView: View {
                 .foregroundColor(.noteMilktea)
                 .padding()
             
-            Text("\(notyetLoginMsg)")
-                .font(.body)
-                .foregroundColor(.noteMilktea)
+//          Text("\(notyetLoginMsg)")
+//              .font(.body)
+//              .foregroundColor(.noteMilktea)
+//              .padding()
+            
+            // MARK: - ✅ Username TextField
+            TextField("Enter username", text: $username)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
+                .frame(width: 300)
+            
+            // MARK: - ✅ Password TextField
+            SecureField("Enter password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+                .frame(width: 300)
             
             HStack{
                 // MARK: - ✅ Log-In Button
