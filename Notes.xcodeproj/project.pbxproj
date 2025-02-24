@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E1F0F5D2D6C21B900BB1A87 /* CustomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */; };
 		1E358CB52D4FAFC8000821FE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB32D4FAFC8000821FE /* NetworkManager.swift */; };
 		1E358CB62D4FAFC8000821FE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB42D4FAFC8000821FE /* Config.swift */; };
 		1E358CB82D4FB143000821FE /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB72D4FB143000821FE /* Note.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
 		1E358CB32D4FAFC8000821FE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		1E358CB42D4FAFC8000821FE /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		1E358CB72D4FB143000821FE /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				DB9C1E812B65BF2F00964A11 /* ListCellView.swift */,
 				DB9C1E832B65BF4F00964A11 /* TextEditorView.swift */,
 				1E358D362D59D5F4000821FE /* NoteBackgroundView.swift */,
+				1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E1F0F5D2D6C21B900BB1A87 /* CustomButtonView.swift in Sources */,
 				1E358CB82D4FB143000821FE /* Note.swift in Sources */,
 				DB9C1E842B65BF4F00964A11 /* TextEditorView.swift in Sources */,
 				DB9C1E802B65BF1300964A11 /* EditNotesView.swift in Sources */,

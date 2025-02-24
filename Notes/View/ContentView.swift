@@ -31,9 +31,9 @@ struct ContentView: View {
             // MARK: - ✅ Greetinga
             Text("Hi Welcome to Pawerfur Note 🐾")
                 .font(.title2)
-                .foregroundColor(.noteMilktea)
+                .foregroundColor(.noteMediumDarktea)
                 .padding()
-
+            
             // MARK: - ✅ Username TextField
             TextField("Enter username", text: $username)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -53,11 +53,12 @@ struct ContentView: View {
                     notesViewModel.notyetLogin = false
                     byeMsg = ""
                 } label: {
-                    Text("Login")
-                        .padding()
-                        .frame(width: 110, height: 50)
-                        .foregroundColor(.noteIcyGrey)
-                        .background(.noteDarktea, in: .capsule)
+                    ZStack{
+                        CustomButtonView()
+                        Text("Login")
+                            .padding()
+                            .foregroundColor(.white)
+                    }
                 }
                 
                 // MARK: - ✅ Log-Out Button
@@ -70,11 +71,12 @@ struct ContentView: View {
                         notesViewModel.notyetLogin = true
                     }
                 } label: {
-                    Text("Log out")
-                        .padding()
-                        .frame(width: 110, height: 50)
-                        .foregroundColor(.noteIcyGrey)
-                        .background(.noteDarktea, in: .capsule)
+                    ZStack {
+                        CustomButtonView()
+                        Text("Log out")
+                            .padding()
+                            .foregroundColor(.white)
+                    }
                 }
             }
             .fullScreenCover(isPresented: $IsLogIn) {
