@@ -65,7 +65,6 @@ struct NotesView: View {
                             }
                         }
                         .listRowBackground(Color.clear)
-//                        .listStyle(PlainListStyle())
                     }
                     .scrollContentBackground(.hidden) // Hide default list background
                     .background(Color(.noteAlmond))
@@ -78,7 +77,7 @@ struct NotesView: View {
                     EditNotesView(vm: noteViewModel, note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
                 }
             }
-        }
+        }  // :NavigationView
         .ignoresSafeArea()
         .background(.noteAlmond)
         .onAppear {

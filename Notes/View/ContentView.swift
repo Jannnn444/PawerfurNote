@@ -75,7 +75,6 @@ struct ContentView: View {
                         .frame(width: 110, height: 50)
                         .foregroundColor(.noteIcyGrey)
                         .background(.noteDarktea, in: .capsule)
-                    
                 }
             }
             .fullScreenCover(isPresented: $IsLogIn) {
