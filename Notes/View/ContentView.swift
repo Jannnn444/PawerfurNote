@@ -13,8 +13,11 @@ struct ContentView: View {
     @State var byeMsg = ""
     @State var notyetLoginMsg = ""
     
-    @State private var username: String = ""  // For first TextField
-    @State private var password: String = ""  // For second TextField
+    @State private var username: String = ""
+    @State private var password: String = ""
+    
+    @State private var imageNumer: Int = 1
+    @State private var randomNumber: Int = 1
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -26,8 +29,18 @@ struct ContentView: View {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
+    func randomImage() {
+        randomNumber = Int.random(in: 1...5)
+        imageNumer = randomNumber
+    }
+    
     var body: some View {
         VStack{
+            // MARK: - ✅ Cat Image
+            Image("cat\(imageNumer)")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
             // MARK: - ✅ Greetinga
             Text("Hi Welcome to Pawerfur Note 🐾")
                 .font(.title2)
@@ -49,6 +62,7 @@ struct ContentView: View {
             HStack{
                 // MARK: - ✅ Log-In Button
                 Button() {
+                    randomImage()
                     IsLogIn = true
                     notesViewModel.notyetLogin = false
                     byeMsg = ""
@@ -57,12 +71,13 @@ struct ContentView: View {
                         CustomButtonView()
                         Text("Login")
                             .padding()
-                            .foregroundColor(.white)
+                            .foregroundColor(.noteAlmond)
                     }
                 }
                 
                 // MARK: - ✅ Log-Out Button
                 Button() {
+                    randomImage()
                     if  notesViewModel.notyetLogin {
                         byeMsg = "Please log in first! "
                     } else {
@@ -75,7 +90,7 @@ struct ContentView: View {
                         CustomButtonView()
                         Text("Log out")
                             .padding()
-                            .foregroundColor(.white)
+                            .foregroundColor(.noteAlmond)
                     }
                 }
             }

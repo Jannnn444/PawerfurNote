@@ -15,8 +15,8 @@ struct CustomButtonView: View {
                 .fill(
                     LinearGradient(colors: [
                         .noteLighttea,
-                        .noteMediumtea,
-                        .noteMediumDarktea],
+                        .noteMediumDarktea,
+                        .noteDarktea],
                                    startPoint: .top,
                                    endPoint: .bottom
                     )
