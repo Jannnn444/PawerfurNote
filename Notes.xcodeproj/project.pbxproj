@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E1F0F5D2D6C21B900BB1A87 /* CustomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */; };
 		1E1F0F622D6C7B9400BB1A87 /* CustomCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1F0F612D6C7B9400BB1A87 /* CustomCircleView.swift */; };
+		1E1F0F642D6C81A700BB1A87 /* MotionAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1F0F632D6C81A700BB1A87 /* MotionAnimationView.swift */; };
 		1E358CB52D4FAFC8000821FE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB32D4FAFC8000821FE /* NetworkManager.swift */; };
 		1E358CB62D4FAFC8000821FE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB42D4FAFC8000821FE /* Config.swift */; };
 		1E358CB82D4FB143000821FE /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB72D4FB143000821FE /* Note.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
 		1E1F0F612D6C7B9400BB1A87 /* CustomCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCircleView.swift; sourceTree = "<group>"; };
+		1E1F0F632D6C81A700BB1A87 /* MotionAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionAnimationView.swift; sourceTree = "<group>"; };
 		1E358CB32D4FAFC8000821FE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		1E358CB42D4FAFC8000821FE /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		1E358CB72D4FB143000821FE /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				1E358D362D59D5F4000821FE /* NoteBackgroundView.swift */,
 				1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */,
 				1E1F0F612D6C7B9400BB1A87 /* CustomCircleView.swift */,
+				1E1F0F632D6C81A700BB1A87 /* MotionAnimationView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				DB9C1E882B65C18B00964A11 /* Extensions.swift in Sources */,
 				1E358CB52D4FAFC8000821FE /* NetworkManager.swift in Sources */,
 				1E358CB62D4FAFC8000821FE /* Config.swift in Sources */,
+				1E1F0F642D6C81A700BB1A87 /* MotionAnimationView.swift in Sources */,
 				DB9C1E702B65BE9200964A11 /* NotesApp.swift in Sources */,
 				DB9C1E7E2B65BEDB00964A11 /* NotesView.swift in Sources */,
 				DB7654D62B66C39D008CCE12 /* NotesViewModel.swift in Sources */,
