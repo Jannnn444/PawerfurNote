@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1E1F0F5D2D6C21B900BB1A87 /* CustomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */; };
+		1E1F0F622D6C7B9400BB1A87 /* CustomCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1F0F612D6C7B9400BB1A87 /* CustomCircleView.swift */; };
 		1E358CB52D4FAFC8000821FE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB32D4FAFC8000821FE /* NetworkManager.swift */; };
 		1E358CB62D4FAFC8000821FE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB42D4FAFC8000821FE /* Config.swift */; };
 		1E358CB82D4FB143000821FE /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E358CB72D4FB143000821FE /* Note.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
+		1E1F0F612D6C7B9400BB1A87 /* CustomCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCircleView.swift; sourceTree = "<group>"; };
 		1E358CB32D4FAFC8000821FE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		1E358CB42D4FAFC8000821FE /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		1E358CB72D4FB143000821FE /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -55,6 +57,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E1F0F602D6C7B4E00BB1A87 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				1E358D362D59D5F4000821FE /* NoteBackgroundView.swift */,
+				1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */,
+				1E1F0F612D6C7B9400BB1A87 /* CustomCircleView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		1E358CB22D4FAFBF000821FE /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -72,8 +84,6 @@
 				DB9C1E7F2B65BF1300964A11 /* EditNotesView.swift */,
 				DB9C1E812B65BF2F00964A11 /* ListCellView.swift */,
 				DB9C1E832B65BF4F00964A11 /* TextEditorView.swift */,
-				1E358D362D59D5F4000821FE /* NoteBackgroundView.swift */,
-				1E1F0F5C2D6C21B900BB1A87 /* CustomButtonView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -127,6 +137,7 @@
 				DB9C1E732B65BE9300964A11 /* Assets.xcassets */,
 				DB9C1E752B65BE9300964A11 /* Preview Content */,
 				DB84073D2B6762A10012A6D7 /* View */,
+				1E1F0F602D6C7B4E00BB1A87 /* Component */,
 				DB84073F2B6762DC0012A6D7 /* Model */,
 				DB84073E2B6762BA0012A6D7 /* ViewModel */,
 				DB8407402B6762F90012A6D7 /* Extensions */,
@@ -215,6 +226,7 @@
 				1E1F0F5D2D6C21B900BB1A87 /* CustomButtonView.swift in Sources */,
 				1E358CB82D4FB143000821FE /* Note.swift in Sources */,
 				DB9C1E842B65BF4F00964A11 /* TextEditorView.swift in Sources */,
+				1E1F0F622D6C7B9400BB1A87 /* CustomCircleView.swift in Sources */,
 				DB9C1E802B65BF1300964A11 /* EditNotesView.swift in Sources */,
 				DB9C1E722B65BE9200964A11 /* ContentView.swift in Sources */,
 				DB9C1E882B65C18B00964A11 /* Extensions.swift in Sources */,

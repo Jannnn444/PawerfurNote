@@ -34,20 +34,30 @@ struct ContentView: View {
         repeat {
             randomNumber = Int.random(in: 1...5)
             print("Actin: Random number generatd: \(randomNumber)")
-        } while randomNumber == imageNumer  
+        } while randomNumber == imageNumer
         /* This loop repeats when the numbers are the same. */
         
         imageNumer = randomNumber
         print("Result: New Image number: \(imageNumer)")
+        print("--- The End ---")
+        print("\n")
     }
     
     var body: some View {
         VStack{
-            // MARK: - ✅ Cat Image
-            Image("cat\(imageNumer)")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 100, height: 100)
+            ZStack {
+                CustomCircleView()
+                Circle()
+                    .fill(.white)
+                    .frame(width: 220, height: 220)
+                // MARK: - ✅ Cat Image
+                Image("cat\(imageNumer)")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+ //              .animation(.easeOut(duration: 5), value: imageNumer)
+            }
+            
             // MARK: - ✅ Greetinga
             Text("Hi Welcome to Pawerfur Note 🐾")
                 .font(.title2)
