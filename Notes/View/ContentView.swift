@@ -30,8 +30,15 @@ struct ContentView: View {
     }
     
     func randomImage() {
-        randomNumber = Int.random(in: 1...5)
+        print("Status: Old Image Number = \(imageNumer)")
+        repeat {
+            randomNumber = Int.random(in: 1...5)
+            print("Actin: Random number generatd: \(randomNumber)")
+        } while randomNumber == imageNumer  
+        /* This loop repeats when the numbers are the same. */
+        
         imageNumer = randomNumber
+        print("Result: New Image number: \(imageNumer)")
     }
     
     var body: some View {
