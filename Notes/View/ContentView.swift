@@ -49,13 +49,13 @@ struct ContentView: View {
                 CustomCircleView()
                 Circle()
                     .fill(.white)
-                    .frame(width: 220, height: 220)
+                    .frame(width: 180, height: 180)
+                MotionAnimationView()
                 // MARK: - ✅ Cat Image
                 Image("cat\(imageNumer)")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 100, height: 100)
- //              .animation(.easeOut(duration: 5), value: imageNumer)
             }
             
             // MARK: - ✅ Greetinga
