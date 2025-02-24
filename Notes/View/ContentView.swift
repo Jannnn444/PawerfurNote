@@ -60,7 +60,7 @@ struct ContentView: View {
                 } label: {
                     Text("Login")
                         .padding()
-                        .frame(width: 120, height: 50)
+                        .frame(width: 110, height: 50)
                         .foregroundColor(.noteIcyGrey)
                         .background(.noteDarktea, in: .capsule)
                 }
@@ -77,7 +77,7 @@ struct ContentView: View {
                 } label: {
                     Text("Log out")
                         .padding()
-                        .frame(width: 120, height: 50)
+                        .frame(width: 110, height: 50)
                         .foregroundColor(.noteIcyGrey)
                         .background(.noteDarktea, in: .capsule)
                     
@@ -86,6 +86,7 @@ struct ContentView: View {
             .fullScreenCover(isPresented: $IsLogIn) {
                 NotesView()
             }
+            .padding(.top, 30)
             
             Text("\(byeMsg)")
                 .font(.body)
