@@ -33,12 +33,7 @@ struct ContentView: View {
                 .font(.title2)
                 .foregroundColor(.noteMilktea)
                 .padding()
-            
-//          Text("\(notyetLoginMsg)")
-//              .font(.body)
-//              .foregroundColor(.noteMilktea)
-//              .padding()
-            
+
             // MARK: - ✅ Username TextField
             TextField("Enter username", text: $username)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -93,7 +88,6 @@ struct ContentView: View {
                 .foregroundColor(.noteMilktea)
                 .padding()
         }
-        .ignoresSafeArea()
     }
 }
 
