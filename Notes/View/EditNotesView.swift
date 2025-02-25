@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditNotesView: View {
     
-    @ObservedObject var vm: NotesViewModel
+    @ObservedObject var noteViewModel: NotesViewModel
     @State var note: Note?
     @State private var title: String = ""
     @State private var content: String = ""
@@ -47,7 +47,7 @@ struct EditNotesView: View {
                         self.hideKeyboard()
                         vm.postNotes(title: title, content: content)
                         dismiss()
-                        vm.getNotes() // Fetch new updated!
+                        noteViewModel.getNotes() // Fetch new updated!
                     } label: {
                         Text("Done")
                             .bold()
@@ -60,7 +60,7 @@ struct EditNotesView: View {
                 if note != nil {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(role: .destructive) {
-                            vm.deleteNote(note!) // Delete the note
+                            noteViewModel.deleteNote(note!) // Delete the note
                             dismiss() // Close the sheet
 //                          vm.getNotes() Refresh list
                         } label: {

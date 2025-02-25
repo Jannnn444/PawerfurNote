@@ -71,10 +71,10 @@ struct NotesView: View {
                 }
                 .padding(.top, 30)
                 .sheet(item: $selectedNote) { note in
-                    EditNotesView(vm: noteViewModel, note: note)
+                    EditNotesView(noteViewModel: noteViewModel, note: note)
                 }
                 .sheet(isPresented: $isCreatingNote) {
-                    EditNotesView(vm: noteViewModel, note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
+                    EditNotesView(noteViewModel: noteViewModel, note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
                 }
             }
         }  // :NavigationView

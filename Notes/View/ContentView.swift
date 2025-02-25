@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var notesViewModel: NotesViewModel
+    @EnvironmentObject var noteViewModel: NotesViewModel
     @State var IsLogIn: Bool = false
     @State var byeMsg = ""
     @State var notyetLoginMsg = ""
@@ -81,7 +81,7 @@ struct ContentView: View {
                 Button() {
                     randomImage()
                     IsLogIn = true
-                    notesViewModel.notyetLogin = false
+                    noteViewModel.notyetLogin = false
                     byeMsg = ""
                 } label: {
                     ZStack{
@@ -95,12 +95,12 @@ struct ContentView: View {
                 // MARK: - ✅ Log-Out Button
                 Button() {
                     randomImage()
-                    if  notesViewModel.notyetLogin {
+                    if  noteViewModel.notyetLogin {
                         byeMsg = "Please log in first! "
                     } else {
                         IsLogIn = false
                         byeMsg = "Successfully log out!"
-                        notesViewModel.notyetLogin = true
+                        noteViewModel.notyetLogin = true
                     }
                 } label: {
                     ZStack {
