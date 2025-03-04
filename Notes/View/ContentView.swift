@@ -122,11 +122,11 @@ struct ContentView: View {
                 Button() {
                     noteViewModel.notyetLogin = true
                     byeMsg = ""
-                    noteViewModel.login(email: username, password: password)
+//                    noteViewModel.signup
                 } label: {
                     ZStack{
                         CustomButtonView()
-                        Text("Login")
+                        Text("Sign-Up")
                             .padding()
                             .foregroundColor(.noteAlmond)
                     }

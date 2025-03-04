@@ -31,7 +31,7 @@ struct NotePostResponse: Codable {
 struct SignInResponse: Codable {
     let message: String
     let statusCode: Int
-    let result: [SignIn]
+    let result: SignIn
 }
 
 struct SignIn: Codable {
