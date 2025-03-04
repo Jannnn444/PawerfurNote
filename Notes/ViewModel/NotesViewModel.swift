@@ -40,10 +40,12 @@ class NotesViewModel: ObservableObject {
                 switch result {
                 case .success(let response):
                     print("✅ Success Sign-in message: \(response.result), status: \(response.statusCode)")
+                    self.notyetLogin = false
                    
                 case .failure(let error):
                     print("⚠️ Error Sign-in occurred: \(error.localizedDescription)")
                     self.handleError(error)
+                    self.notyetLogin = true
                 }
             }
         }

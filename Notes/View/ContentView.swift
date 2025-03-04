@@ -19,6 +19,9 @@ struct ContentView: View {
     @State private var imageNumer: Int = 1
     @State private var randomNumber: Int = 1
     
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -79,11 +82,19 @@ struct ContentView: View {
             HStack{
                 // MARK: - ✅ Log-In Button
                 Button() {
-                    randomImage()
-                    IsLogIn = true
-                    noteViewModel.notyetLogin = false
-                    byeMsg = ""
                     noteViewModel.login(email: username, password: password)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Ensure login state updates
+                        if !noteViewModel.notyetLogin {
+                            DispatchQueue.main.async {
+                                alertMessage = "Login Successful!"
+                                showAlert = true
+                            }
+                        } else {
+                            alertMessage = "Login Failed. Please check your credentials."
+                            showAlert = true  // Show alert for failure too
+                        }
+                    }
                 } label: {
                     ZStack{
                         CustomButtonView()
@@ -91,6 +102,19 @@ struct ContentView: View {
                             .padding()
                             .foregroundColor(.noteAlmond)
                     }
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Notification"),
+                        message: Text(alertMessage),
+                        dismissButton: .default(Text("OK")) {
+                            if alertMessage == "Login Successful!" {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    IsLogIn = true // ✅ Trigger sheet after alert dismissal
+                                }
+                            }
+                        }
+                    )
                 }
                 
                 // MARK: - ✅ Log-Out Button
@@ -122,7 +146,7 @@ struct ContentView: View {
                 Button() {
                     noteViewModel.notyetLogin = true
                     byeMsg = ""
-//                    noteViewModel.signup
+                    //                    noteViewModel.signup()
                 } label: {
                     ZStack{
                         CustomButtonView()
@@ -131,7 +155,6 @@ struct ContentView: View {
                             .foregroundColor(.noteAlmond)
                     }
                 }
-                
             }
             
             Text("\(byeMsg)")
