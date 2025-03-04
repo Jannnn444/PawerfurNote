@@ -83,7 +83,7 @@ struct ContentView: View {
                     IsLogIn = true
                     noteViewModel.notyetLogin = false
                     byeMsg = ""
-                    noteViewModel.authenticated(email: username, password: password)
+                    noteViewModel.login(email: username, password: password)
                 } label: {
                     ZStack{
                         CustomButtonView()
@@ -116,6 +116,23 @@ struct ContentView: View {
                 NotesView()
             }
             .padding(.top, 30)
+            
+            HStack {
+                // MARK: - ✅ Sign-Up Button
+                Button() {
+                    noteViewModel.notyetLogin = true
+                    byeMsg = ""
+                    noteViewModel.login(email: username, password: password)
+                } label: {
+                    ZStack{
+                        CustomButtonView()
+                        Text("Login")
+                            .padding()
+                            .foregroundColor(.noteAlmond)
+                    }
+                }
+                
+            }
             
             Text("\(byeMsg)")
                 .font(.body)

@@ -20,8 +20,8 @@ class NotesViewModel: ObservableObject {
         getNotes() // it runs first when it initialize itself
     }
     
-    func authenticated(email: String, password: String) {
-        let url = "api/member/signin"
+    func login(email: String, password: String) {
+        let url = "/api/member/signin"
         print("✅ Login @url: \(url)...")
         
         let authenticatedAccount = AccountPayload(email: email, password: password)
@@ -34,12 +34,12 @@ class NotesViewModel: ObservableObject {
         print("✅ Encoded JSON: \(String(data: jsonData, encoding: .utf8) ?? "nil")")
         
         // Call NetworkManager to send the request
-        NetworkManager.shared.postRequest(url: url, payload: authenticatedAccount) { (result: Result<SignInRes, Error>) in
+        NetworkManager.shared.postRequest(url: url, payload: authenticatedAccount) { (result: Result<SignInResponse, Error>) in
             
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    print("✅ Success Sign-in message: \(response.accessToken)")
+                    print("✅ Success Sign-in message: \(response.result), status: \(response.statusCode)")
                    
                 case .failure(let error):
                     print("⚠️ Error Sign-in occurred: \(error.localizedDescription)")

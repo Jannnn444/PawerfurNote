@@ -28,13 +28,18 @@ struct NotePostResponse: Codable {
     let statusCode: Int
 }
 
-struct SignInRes: Codable {
+struct SignInResponse: Codable {
+    let message: String
+    let statusCode: Int
+    let result: [SignIn]
+}
+
+struct SignIn: Codable {
     let refreshToken: String
     let accessToken: String
     let accessExpiresIn: Int
     let refreshExpiresIn: Int
 }
-
 
 struct NotePayloadForPost: Codable, Hashable {
     let title: String
