@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-// MARK: View
+// MARK: - View
 
 extension View {
     func hideKeyboard() {

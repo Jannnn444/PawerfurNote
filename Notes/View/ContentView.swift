@@ -72,16 +72,25 @@ struct ContentView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
                 .frame(width: 300)
+                .submitLabel(.done)
+                .onSubmit {
+                    hideKeyboard()
+                }
             
             // MARK: - ✅ Password TextField
             SecureField("Enter password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
                 .frame(width: 300)
+                .submitLabel(.done)
+                .onSubmit {
+                    hideKeyboard()
+                }
             
             HStack{
                 // MARK: - ✅ Log-In Button
                 Button() {
+                    hideKeyboard()
                     noteViewModel.login(email: username, password: password)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Ensure login state updates
@@ -146,7 +155,7 @@ struct ContentView: View {
                 Button() {
                     noteViewModel.notyetLogin = true
                     byeMsg = ""
-                    //                    noteViewModel.signup()
+               //   noteViewModel.signup()
                 } label: {
                     ZStack{
                         CustomButtonView()
