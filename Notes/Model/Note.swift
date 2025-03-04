@@ -28,6 +28,14 @@ struct NotePostResponse: Codable {
     let statusCode: Int
 }
 
+struct SignInRes: Codable {
+    let refreshToken: String
+    let accessToken: String
+    let accessExpiresIn: Int
+    let refreshExpiresIn: Int
+}
+
+
 struct NotePayloadForPost: Codable, Hashable {
     let title: String
     let content: String
@@ -37,6 +45,11 @@ struct DeleteNoteResponse: Codable, Hashable {
     let id: String
     let title: String
     let content: String
+}
+
+struct AccountPayload: Codable, Hashable {
+    let email: String
+    let password: String
 }
 
 /*

@@ -19,10 +19,39 @@ class NotesViewModel: ObservableObject {
     init() {
         getNotes() // it runs first when it initialize itself
     }
+    
+    func authenticated(email: String, password: String) {
+        let url = "api/member/signin"
+        print("✅ Login @url: \(url)...")
+        
+        let authenticatedAccount = AccountPayload(email: email, password: password)
+        
+        // Ensure JSON encoding is correct
+        guard let jsonData = try? JSONEncoder().encode(authenticatedAccount) else {
+            print("❌ Failed to encode login JSON")
+            return
+        }
+        print("✅ Encoded JSON: \(String(data: jsonData, encoding: .utf8) ?? "nil")")
+        
+        // Call NetworkManager to send the request
+        NetworkManager.shared.postRequest(url: url, payload: authenticatedAccount) { (result: Result<SignInRes, Error>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    print("✅ Success Sign-in message: \(response.accessToken)")
+                   
+                case .failure(let error):
+                    print("⚠️ Error Sign-in occurred: \(error.localizedDescription)")
+                    self.handleError(error)
+                }
+            }
+        }
+    }
 
     func getNotes() {
         let url = "/api/notes"
-        print("✅ Fetching note from url: \(url)...")
+        print("✅ Fetching note @url: \(url)...")
         
         NetworkManager.shared.getRequest(url: url) { (result: Result<NoteResponse, Error>) in
             DispatchQueue.main.async {

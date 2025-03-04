@@ -83,13 +83,14 @@ class NetworkManager {
         
         // T is dynamic type, product type, title: string and price: float(decimal)
         // guard against any unaccepted url strings and create URL object
-        guard let url = URL(string: "http://\(apiDomain):\(url)") else {
+        guard let urlObj = URL(string: "http://\(apiDomain):\(url)") else {
             completion(.failure(NetworkError.urlError))
             return
         }
+        print("DECODE Url: \(urlObj)")
         
         // create a URLRequest object
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: urlObj)
         
         // set http method to POST
         request.httpMethod = "POST"

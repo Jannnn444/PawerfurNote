@@ -83,6 +83,7 @@ struct ContentView: View {
                     IsLogIn = true
                     noteViewModel.notyetLogin = false
                     byeMsg = ""
+                    noteViewModel.authenticated(email: username, password: password)
                 } label: {
                     ZStack{
                         CustomButtonView()
