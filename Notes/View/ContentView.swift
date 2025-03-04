@@ -21,6 +21,7 @@ struct ContentView: View {
     
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @State private var isLoading = false
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -87,6 +88,15 @@ struct ContentView: View {
                     hideKeyboard()
                 }
             
+            // ✅ Show loading spinner while login is processing
+            if isLoading {
+                VStack {
+                    ProgressView("Logging in...") // ✅ Loading bar
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                }
+            }
+            
             HStack{
                 // MARK: - ✅ Log-In Button
                 Button() {
@@ -98,6 +108,7 @@ struct ContentView: View {
                             DispatchQueue.main.async {
                                 alertMessage = "Login Successful!"
                                 showAlert = true
+                                isLoading = true // ✅ Show loading
                             }
                         } else {
                             alertMessage = "Login Failed. Please check your credentials."
@@ -125,7 +136,7 @@ struct ContentView: View {
                         }
                     )
                 }
-                
+
                 // MARK: - ✅ Log-Out Button
                 Button() {
                     randomImage()
@@ -158,10 +169,9 @@ struct ContentView: View {
                //   noteViewModel.signup()
                 } label: {
                     ZStack{
-                        CustomButtonView()
-                        Text("Sign-Up")
+                        Text("Sign Up")
                             .padding()
-                            .foregroundColor(.noteAlmond)
+                            .foregroundColor(.blue)
                     }
                 }
             }
