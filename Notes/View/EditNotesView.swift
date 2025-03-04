@@ -45,7 +45,7 @@ struct EditNotesView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         self.hideKeyboard()
-                        vm.postNotes(title: title, content: content)
+                        noteViewModel.postNotes(title: title, content: content)
                         dismiss()
                         noteViewModel.getNotes() // Fetch new updated!
                     } label: {
@@ -62,7 +62,6 @@ struct EditNotesView: View {
                         Button(role: .destructive) {
                             noteViewModel.deleteNote(note!) // Delete the note
                             dismiss() // Close the sheet
-//                          vm.getNotes() Refresh list
                         } label: {
                             Image(systemName: "trash")
                                 .foregroundColor(.red)
