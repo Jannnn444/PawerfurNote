@@ -22,7 +22,7 @@ class NotesViewModel: ObservableObject {
     
     func login(email: String, password: String) {
         let url = "/api/member/signin"
-        print("✅ Login @url: \(url)...")
+        print("✅ Fetching login @url: \(url)...")
         
         let authenticatedAccount = AccountPayload(email: email, password: password)
         

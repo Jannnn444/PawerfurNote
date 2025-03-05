@@ -73,6 +73,8 @@ struct ContentView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
                 .frame(width: 300)
+                .autocorrectionDisabled(true)
+                .textInputAutocapitalization(.none)
                 .submitLabel(.done)
                 .onSubmit {
                     hideKeyboard()
