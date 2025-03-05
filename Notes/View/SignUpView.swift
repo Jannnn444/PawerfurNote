@@ -23,7 +23,7 @@ struct SignUpView: View {
             Text("Sign Up Right now!")
                 .padding()
                 .background(.noteMilktea)
-                .frame(width: 100, height: 80)
+                .frame(width: 130, height: 80)
             
             TextField("Name", text: $name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -69,21 +69,24 @@ struct SignUpView: View {
                     hideKeyboard()
                 }
             HStack {
-                Button() {
-                    hideKeyboard()
-//                    noteViewModel.signup()
-                    
-                } label: {
-                    CustomButtonView()
-                    Text("Create")
-                        .padding()
-                        .foregroundColor(.noteAlmond)
+              
+                    Button() {
+                        hideKeyboard()
+                //  noteViewModel.signup()
+                        
+                    } label: {
+                        ZStack {
+                        CustomButtonView()
+                        Text("Create")
+                            .padding()
+                            .foregroundColor(.noteAlmond)
+                    }
                 }
             }
             
             // NOTE:
-            // 1. Remember show alert when it create success.
-            // 2. Now we go create a signup func first.
+            // 1. Remember show alert when it isCreated success. (now)
+            // 2. Now we go create a signup func first.(created)
             
             
 //            .alert(isPresented: $showAlert) {
