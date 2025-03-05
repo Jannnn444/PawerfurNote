@@ -52,6 +52,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                
                 ZStack {
                     CustomCircleView()
                     Rectangle()
@@ -69,9 +70,12 @@ struct ContentView: View {
                 
                 // MARK: - ✅ Greetinga
                 Text("Hi Welcome to Pawerfur Note 🐾")
-                    .font(.title2)
+                    .font(.body)
                     .foregroundColor(.noteMediumDarktea)
                     .padding()
+                    .padding(.top, 30)
+                
+                Spacer()
                 
                 // MARK: - ✅ Username TextField
                 TextField("Enter username", text: $username)
@@ -103,6 +107,7 @@ struct ContentView: View {
                             .padding()
                     }
                 }
+                Spacer()
                 
                 HStack{
                     // MARK: - ✅ Log-In Button
@@ -138,6 +143,7 @@ struct ContentView: View {
                             CustomButtonView()
                             Text("Login")
                                 .padding()
+                                .font(.body)
                                 .foregroundColor(.noteAlmond)
                         }
                     }
@@ -172,6 +178,7 @@ struct ContentView: View {
                             CustomButtonView()
                             Text("Log out")
                                 .padding()
+                                .font(.body)
                                 .foregroundColor(.noteAlmond)
                         }
                     }
@@ -179,13 +186,14 @@ struct ContentView: View {
                 .fullScreenCover(isPresented: $showNote) {
                     NotesView()
                 }
-                .padding(.top, 30)
+                .padding(.top, 40)
                 
                 // MARK: - ✅ Sign-Up
                 NavigationLink(destination: SignUpView()) {
                     Text("Sign Up")
                         .padding()
-                        .foregroundColor(.blue)
+                        .font(.body)
+                        .foregroundColor(.noteMilktea)
                 }
                 
                 Text("\(byeMsg)")
@@ -193,6 +201,7 @@ struct ContentView: View {
                     .foregroundColor(.noteMilktea)
                     .padding()
             }
+            .padding()
         }
     }
 }

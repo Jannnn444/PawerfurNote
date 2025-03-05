@@ -11,7 +11,7 @@ import SwiftUI
 struct CustomButtonView: View {
     var body: some View {
         ZStack {
-            Capsule()
+            Rectangle()
                 .fill(
                     LinearGradient(colors: [
                         .noteLighttea,
@@ -21,7 +21,8 @@ struct CustomButtonView: View {
                                    endPoint: .bottom
                     )
                 )
-                .frame(width: 100, height: 50)
+                .frame(width: 80, height: 40)
+                .cornerRadius(8)
         }
     }
 }
