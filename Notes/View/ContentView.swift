@@ -73,7 +73,7 @@ struct ContentView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
                 .frame(width: 300)
-                .autocorrectionDisabled(true)
+                .autocorrectionDisabled()
                 .textInputAutocapitalization(.none)
                 .submitLabel(.done)
                 .onSubmit {
