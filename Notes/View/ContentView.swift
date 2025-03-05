@@ -21,6 +21,8 @@ struct ContentView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var isLoading = false
+    @State private var showNote = false
+    @State private var isLoggedIn = false
 
     init() {
         let appearance = UINavigationBarAppearance()
@@ -48,7 +50,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 ZStack {
                     CustomCircleView()
@@ -57,7 +59,7 @@ struct ContentView: View {
                         .frame(width: 180, height: 180)
                     MotionAnimationView()
                     // MARK: - ✅ Cat Image
-                    Image("cat\(imageNumer)")
+                    Image("rock\(imageNumer)")
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100, height: 100)
@@ -104,19 +106,29 @@ struct ContentView: View {
                     // MARK: - ✅ Log-In Button
                     Button() {
                         hideKeyboard()
+                        isLoading = true // ✅ Show loading before login attempt
                         noteViewModel.login(email: username, password: password)
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Ensure login state updates
+                            // When api works, $noteViewModel.showPleaseLogin will be false.
                             if !noteViewModel.showPleaseLogin {
                                 DispatchQueue.main.async {
                                     alertMessage = "Login Successful!"
                                     showAlert = true
-                                    isLoading = true // ✅ Show loading
-                                    // When api works, $noteViewModel.showPleaseLogin will be false.
+                                    isLoading = false // ✅ Stop loading
+                                    noteViewModel.isLogin = true
                                 }
                             } else {
                                 alertMessage = "Login Failed. Please check your credentials."
                                 showAlert = true  // Show alert for failure too
+                                isLoading = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    showAlert = false
+                                }
+                            }
+                            isLoading = false // ✅ Hide loading indicator
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                showNote = true // ✅ Ensures transition happens after alert disappears
                             }
                         }
                     } label: {
@@ -134,7 +146,8 @@ struct ContentView: View {
                             dismissButton: .default(Text("OK")) {
                                 if alertMessage == "Login Successful!" {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        noteViewModel.isLogin = true // ✅ Trigger sheet after alert dismissal
+                                        noteViewModel.isLogin = true 
+                                        showNote = true// ✅ Trigger sheet after alert dismissal
                                     }
                                 }
                             }
@@ -150,6 +163,7 @@ struct ContentView: View {
                             noteViewModel.isLogin = false
                             byeMsg = "Successfully log out!"
                             noteViewModel.showPleaseLogin = true
+                            showNote = false
                         }
                     } label: {
                         ZStack {
@@ -160,7 +174,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                .fullScreenCover(isPresented: $noteViewModel.isLogin) {
+                .fullScreenCover(isPresented: $showNote) {
                     NotesView()
                 }
                 .padding(.top, 30)

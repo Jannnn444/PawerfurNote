@@ -43,6 +43,7 @@ class NotesViewModel: ObservableObject {
                 case .success(let response):
                     print("✅ Success Sign-in message: \(response.result), status: \(response.statusCode)")
                     self.showPleaseLogin = false
+                    self.isLogin = true
                    
                 case .failure(let error):
                     print("⚠️ Error Sign-in occurred: \(error.localizedDescription)")
@@ -70,7 +71,8 @@ class NotesViewModel: ObservableObject {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    print("✅ Success Sign-up messsage: \(response.result), status: \(response.statusCode)")
+                    print("✅ Success Sign-up messsage: \(response.result), status code: \(response.statusCode), result: \(response.result)")
+                    // Here sets for we need to secure
                     self.isCreated = true
                     
                 case .failure(let error):

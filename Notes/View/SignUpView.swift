@@ -72,7 +72,20 @@ struct SignUpView: View {
               
                     Button() {
                         hideKeyboard()
-                //  noteViewModel.signup()
+                        noteViewModel.signup(name: name, email: email, password: password, phone: phone)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            // When API works, isCreated will be set true
+                            if noteViewModel.isCreated {
+                                DispatchQueue.main.async {
+                                    alertMessage = "Account Created"
+                                    showAlert = true
+                                }
+                            } else {
+                                alertMessage = "Account Created Failed."
+                                showAlert = true  // Show alert for failure too
+                            }
+                        }
                         
                     } label: {
                         ZStack {
@@ -87,17 +100,15 @@ struct SignUpView: View {
             // NOTE:
             // 1. Remember show alert when it isCreated success. (now)
             // 2. Now we go create a signup func first.(created)
-            
-            
-//            .alert(isPresented: $showAlert) {
-//                Alert(
-//                    title: Text("Success!"),
-//                      message: Text(alertMessage),
-//                      dismissButton: .default(Text("OK")) {
-//                         
-//                }
-//              )
-//            }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Success Created!"),
+                      message: Text(alertMessage),
+                    dismissButton: .default(Text("OK")) {
+//                        ContentView()
+                    }
+              )
+            }
         }
     }
 }

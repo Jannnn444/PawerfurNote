@@ -15,7 +15,7 @@ struct NotesView: View {
     @State private var isHeadToHome = false
 
     var body: some View {
-        NavigationView {
+       
             ZStack {
                 Color(.noteMilktea).edgesIgnoringSafeArea(.all)
                 
@@ -77,7 +77,7 @@ struct NotesView: View {
                     EditNotesView(noteViewModel: noteViewModel, note: Note(id: "", title: "Title", content: "Content", favorite: false, created_at: "", updated_at: ""))
                 }
             }
-        }  // :NavigationView
+
         .ignoresSafeArea()
         .background(.noteAlmond)
         .onAppear {
