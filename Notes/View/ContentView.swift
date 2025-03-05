@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var noteViewModel: NotesViewModel
-    @State var IsLogIn: Bool = false
     @State var byeMsg = ""
     @State var notyetLoginMsg = ""
     
@@ -31,6 +30,7 @@ struct ContentView: View {
         
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        alertMessage = ""
     }
     
     func randomImage() {
@@ -112,6 +112,7 @@ struct ContentView: View {
                                     alertMessage = "Login Successful!"
                                     showAlert = true
                                     isLoading = true // ✅ Show loading
+                                    // When api works, $noteViewModel.showPleaseLogin will be false.
                                 }
                             } else {
                                 alertMessage = "Login Failed. Please check your credentials."
@@ -133,7 +134,7 @@ struct ContentView: View {
                             dismissButton: .default(Text("OK")) {
                                 if alertMessage == "Login Successful!" {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        IsLogIn = true // ✅ Trigger sheet after alert dismissal
+                                        noteViewModel.isLogin = true // ✅ Trigger sheet after alert dismissal
                                     }
                                 }
                             }
@@ -146,7 +147,7 @@ struct ContentView: View {
                         if noteViewModel.showPleaseLogin {
                             byeMsg = "Please log in first! "
                         } else {
-                            IsLogIn = false
+                            noteViewModel.isLogin = false
                             byeMsg = "Successfully log out!"
                             noteViewModel.showPleaseLogin = true
                         }
@@ -159,7 +160,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                .fullScreenCover(isPresented: $IsLogIn) {
+                .fullScreenCover(isPresented: $noteViewModel.isLogin) {
                     NotesView()
                 }
                 .padding(.top, 30)

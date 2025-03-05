@@ -52,11 +52,23 @@ struct DeleteNoteResponse: Codable, Hashable {
     let content: String
 }
 
-struct AccountPayload: Codable, Hashable {
+struct SignInPayload: Codable, Hashable {
     let email: String
     let password: String
 }
 
+struct SignUpPayload: Codable, Hashable {
+    let name: String
+    let email: String
+    let password: String
+    let phone: String
+}
+
+struct SignUpResponse: Codable {
+    let message: String
+    let statusCode: Int
+    let result: Bool
+}
 /*
  {
   "message": "Note was successfully created.",

@@ -15,7 +15,9 @@ class NotesViewModel: ObservableObject {
     @Published var errorMessages: String? = nil
     @Published var note: Note?
     @Published var showPleaseLogin = true
-
+    @Published var isLogin = false
+    @Published var isCreated = false
+    
     init() {
         getNotes() // it runs first when it initialize itself
     }
@@ -24,7 +26,7 @@ class NotesViewModel: ObservableObject {
         let url = "/api/member/signin"
         print("✅ Fetching login @url: \(url)...")
         
-        let authenticatedAccount = AccountPayload(email: email, password: password)
+        let authenticatedAccount = SignInPayload(email: email, password: password)
         
         // Ensure JSON encoding is correct
         guard let jsonData = try? JSONEncoder().encode(authenticatedAccount) else {
@@ -46,6 +48,35 @@ class NotesViewModel: ObservableObject {
                     print("⚠️ Error Sign-in occurred: \(error.localizedDescription)")
                     self.handleError(error)
                     self.showPleaseLogin = true
+                }
+            }
+        }
+    }
+    
+    func signup(name: String, email: String, password: String, phone: String) {
+        let url = "/api/member/signup"
+        print("✅ Fetching sign up @url: \(url)")
+        
+        let newCreateAccount = SignUpPayload(name: name, email: email, password: password, phone: phone)
+        
+        guard let jsonData = try? JSONEncoder().encode(newCreateAccount) else {
+            print("Failed to encode signup JSON")
+            return
+        }
+        print("✅ Encoded JSON: \(String(data: jsonData, encoding: .utf8) ?? "nil")")
+        
+        // Network manager to send the request
+        NetworkManager.shared.postRequest(url: url, payload: newCreateAccount) { (result: Result<SignUpResponse, Error>) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    print("✅ Success Sign-up messsage: \(response.result), status: \(response.statusCode)")
+                    self.isCreated = true
+                    
+                case .failure(let error):
+                    print("⚠️ Error sign-up occured: \(error.localizedDescription)")
+                    self.handleError(error)
+                    self.isCreated = false
                 }
             }
         }
