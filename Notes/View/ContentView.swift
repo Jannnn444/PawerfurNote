@@ -54,11 +54,13 @@ struct ContentView: View {
             VStack {
                 ZStack {
                     CustomCircleView()
-                    Circle()
+                    Rectangle()
                         .fill(.white)
                         .frame(width: 180, height: 180)
+                        .cornerRadius(10)
+                    
                     MotionAnimationView()
-                    // MARK: - ✅ Cat Image
+                    // MARK: - ✅ Rock Image
                     Image("rock\(imageNumer)")
                         .resizable()
                         .scaledToFill()

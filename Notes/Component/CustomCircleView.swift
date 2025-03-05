@@ -11,7 +11,7 @@ struct CustomCircleView: View {
     @State private var isAnimateGradient: Bool = false
     
     var body: some View {
-        Circle()
+        Rectangle()
             .fill(
                 LinearGradient(colors: [
                     .noteMilktea.opacity(0.8),
@@ -27,6 +27,7 @@ struct CustomCircleView: View {
                 }
             }
             . frame(width: 256, height: 256)
+            .cornerRadius(10)
     }
 }
 
