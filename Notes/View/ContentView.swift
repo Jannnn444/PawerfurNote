@@ -77,36 +77,39 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                // MARK: - ✅ Username TextField
-                TextField("Enter username", text: $username)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    .frame(width: 300)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.none)
-                    .submitLabel(.done)
-                    .onSubmit {
-                        hideKeyboard()
-                    }
-                
-                // MARK: - ✅ Password TextField
-                SecureField("Enter password", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    .frame(width: 300)
-                    .submitLabel(.done)
-                    .onSubmit {
-                        hideKeyboard()
-                    }
+                VStack {
+                    // MARK: - ✅ Username TextField
+                    TextField("Enter username", text: $username)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(width: 300)
+                        .padding()
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.none)
+                        .submitLabel(.done)
+                        .onSubmit {
+                            hideKeyboard()
+                        }
+                    
+                    // MARK: - ✅ Password TextField
+                    SecureField("Enter password", text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(width: 300)
+                        .padding()
+                        .submitLabel(.done)
+                        .onSubmit {
+                            hideKeyboard()
+                        }
+                }.padding()
                 
                 // ✅ Show loading spinner while login is processing
                 if isLoading {
                     VStack {
-                        ProgressView("Logging in...") // ✅ Loading bar
+                        ProgressView("Logging in") // Loading bar
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                     }
                 }
+                
                 Spacer()
                 
                 HStack{
@@ -126,7 +129,7 @@ struct ContentView: View {
                                     noteViewModel.isLogin = true
                                 }
                             } else {
-                                alertMessage = "Login Failed. Please check your credentials."
+                                alertMessage = "Login Failed..."
                                 showAlert = true  // Show alert for failure too
                                 isLoading = false
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -135,7 +138,9 @@ struct ContentView: View {
                             }
                             isLoading = false // ✅ Hide loading indicator
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                showNote = true // ✅ Ensures transition happens after alert disappears
+                                if noteViewModel.isLogin {
+                                    showNote = true // ✅ Ensures transition happens after alert disappears
+                                }
                             }
                         }
                     } label: {
@@ -154,9 +159,13 @@ struct ContentView: View {
                             dismissButton: .default(Text("OK")) {
                                 if alertMessage == "Login Successful!" {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        noteViewModel.isLogin = true 
-                                        showNote = true// ✅ Trigger sheet after alert dismissal
+                                        if noteViewModel.isLogin {
+                                            showNote = true // Only allow showing when logged in
+                                        }
                                     }
+                                } else if alertMessage == "Login Failed..." {
+                                    noteViewModel.isLogin = false
+                                    showNote = false
                                 }
                             }
                         )
