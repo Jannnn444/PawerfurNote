@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct SuccessLoginView: View {
+struct SignUpView: View {
     var body: some View {
         ZStack {
-            Text("Login!")
+            Text("Sign up")
         }.padding()
             .background(.noteMilktea)
             .frame(width: 100, height: 80)
@@ -18,5 +18,5 @@ struct SuccessLoginView: View {
 }
 
 #Preview {
-    SuccessLoginView()
+    SignUpView()
 }

@@ -14,7 +14,7 @@ class NotesViewModel: ObservableObject {
     @Published var isDataLoaded = false
     @Published var errorMessages: String? = nil
     @Published var note: Note?
-    @Published var notyetLogin = true
+    @Published var showPleaseLogin = true
 
     init() {
         getNotes() // it runs first when it initialize itself
@@ -40,12 +40,12 @@ class NotesViewModel: ObservableObject {
                 switch result {
                 case .success(let response):
                     print("✅ Success Sign-in message: \(response.result), status: \(response.statusCode)")
-                    self.notyetLogin = false
+                    self.showPleaseLogin = false
                    
                 case .failure(let error):
                     print("⚠️ Error Sign-in occurred: \(error.localizedDescription)")
                     self.handleError(error)
-                    self.notyetLogin = true
+                    self.showPleaseLogin = true
                 }
             }
         }

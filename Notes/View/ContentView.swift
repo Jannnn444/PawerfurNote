@@ -22,7 +22,7 @@ struct ContentView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var isLoading = false
-    
+
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -48,140 +48,134 @@ struct ContentView: View {
     }
     
     var body: some View {
-        VStack{
-            ZStack {
-                CustomCircleView()
-                Circle()
-                    .fill(.white)
-                    .frame(width: 180, height: 180)
-                MotionAnimationView()
-                // MARK: - ✅ Cat Image
-                Image("cat\(imageNumer)")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 100, height: 100)
-            }
-            
-            // MARK: - ✅ Greetinga
-            Text("Hi Welcome to Pawerfur Note 🐾")
-                .font(.title2)
-                .foregroundColor(.noteMediumDarktea)
-                .padding()
-            
-            // MARK: - ✅ Username TextField
-            TextField("Enter username", text: $username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .frame(width: 300)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.none)
-                .submitLabel(.done)
-                .onSubmit {
-                    hideKeyboard()
+        NavigationView {
+            VStack {
+                ZStack {
+                    CustomCircleView()
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 180, height: 180)
+                    MotionAnimationView()
+                    // MARK: - ✅ Cat Image
+                    Image("cat\(imageNumer)")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 100)
                 }
-            
-            // MARK: - ✅ Password TextField
-            SecureField("Enter password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .frame(width: 300)
-                .submitLabel(.done)
-                .onSubmit {
-                    hideKeyboard()
+                
+                // MARK: - ✅ Greetinga
+                Text("Hi Welcome to Pawerfur Note 🐾")
+                    .font(.title2)
+                    .foregroundColor(.noteMediumDarktea)
+                    .padding()
+                
+                // MARK: - ✅ Username TextField
+                TextField("Enter username", text: $username)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .frame(width: 300)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.none)
+                    .submitLabel(.done)
+                    .onSubmit {
+                        hideKeyboard()
+                    }
+                
+                // MARK: - ✅ Password TextField
+                SecureField("Enter password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .frame(width: 300)
+                    .submitLabel(.done)
+                    .onSubmit {
+                        hideKeyboard()
+                    }
+                
+                // ✅ Show loading spinner while login is processing
+                if isLoading {
+                    VStack {
+                        ProgressView("Logging in...") // ✅ Loading bar
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
+                    }
                 }
-            
-            // ✅ Show loading spinner while login is processing
-            if isLoading {
-                VStack {
-                    ProgressView("Logging in...") // ✅ Loading bar
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .padding()
-                }
-            }
-            
-            HStack{
-                // MARK: - ✅ Log-In Button
-                Button() {
-                    hideKeyboard()
-                    noteViewModel.login(email: username, password: password)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Ensure login state updates
-                        if !noteViewModel.notyetLogin {
-                            DispatchQueue.main.async {
-                                alertMessage = "Login Successful!"
-                                showAlert = true
-                                isLoading = true // ✅ Show loading
+                
+                HStack{
+                    // MARK: - ✅ Log-In Button
+                    Button() {
+                        hideKeyboard()
+                        noteViewModel.login(email: username, password: password)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Ensure login state updates
+                            if !noteViewModel.showPleaseLogin {
+                                DispatchQueue.main.async {
+                                    alertMessage = "Login Successful!"
+                                    showAlert = true
+                                    isLoading = true // ✅ Show loading
+                                }
+                            } else {
+                                alertMessage = "Login Failed. Please check your credentials."
+                                showAlert = true  // Show alert for failure too
                             }
-                        } else {
-                            alertMessage = "Login Failed. Please check your credentials."
-                            showAlert = true  // Show alert for failure too
+                        }
+                    } label: {
+                        ZStack{
+                            CustomButtonView()
+                            Text("Login")
+                                .padding()
+                                .foregroundColor(.noteAlmond)
                         }
                     }
-                } label: {
-                    ZStack{
-                        CustomButtonView()
-                        Text("Login")
-                            .padding()
-                            .foregroundColor(.noteAlmond)
-                    }
-                }
-                .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Notification"),
-                        message: Text(alertMessage),
-                        dismissButton: .default(Text("OK")) {
-                            if alertMessage == "Login Successful!" {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    IsLogIn = true // ✅ Trigger sheet after alert dismissal
+                    .alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("Notification"),
+                            message: Text(alertMessage),
+                            dismissButton: .default(Text("OK")) {
+                                if alertMessage == "Login Successful!" {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        IsLogIn = true // ✅ Trigger sheet after alert dismissal
+                                    }
                                 }
                             }
+                        )
+                    }
+                    
+                    // MARK: - ✅ Log-Out Button
+                    Button() {
+                        randomImage()
+                        if noteViewModel.showPleaseLogin {
+                            byeMsg = "Please log in first! "
+                        } else {
+                            IsLogIn = false
+                            byeMsg = "Successfully log out!"
+                            noteViewModel.showPleaseLogin = true
                         }
-                    )
-                }
-
-                // MARK: - ✅ Log-Out Button
-                Button() {
-                    randomImage()
-                    if  noteViewModel.notyetLogin {
-                        byeMsg = "Please log in first! "
-                    } else {
-                        IsLogIn = false
-                        byeMsg = "Successfully log out!"
-                        noteViewModel.notyetLogin = true
-                    }
-                } label: {
-                    ZStack {
-                        CustomButtonView()
-                        Text("Log out")
-                            .padding()
-                            .foregroundColor(.noteAlmond)
+                    } label: {
+                        ZStack {
+                            CustomButtonView()
+                            Text("Log out")
+                                .padding()
+                                .foregroundColor(.noteAlmond)
+                        }
                     }
                 }
-            }
-            .fullScreenCover(isPresented: $IsLogIn) {
-                NotesView()
-            }
-            .padding(.top, 30)
-            
-            HStack {
-                // MARK: - ✅ Sign-Up Button
-                Button() {
-                    noteViewModel.notyetLogin = true
-                    byeMsg = ""
-               //   noteViewModel.signup()
-                } label: {
-                    ZStack{
-                        Text("Sign Up")
-                            .padding()
-                            .foregroundColor(.blue)
-                    }
+                .fullScreenCover(isPresented: $IsLogIn) {
+                    NotesView()
                 }
+                .padding(.top, 30)
+                
+                // MARK: - ✅ Sign-Up
+                NavigationLink(destination: SignUpView()) {
+                    Text("Sign Up")
+                        .padding()
+                        .foregroundColor(.blue)
+                }
+                
+                Text("\(byeMsg)")
+                    .font(.body)
+                    .foregroundColor(.noteMilktea)
+                    .padding()
             }
-            
-            Text("\(byeMsg)")
-                .font(.body)
-                .foregroundColor(.noteMilktea)
-                .padding()
         }
     }
 }
