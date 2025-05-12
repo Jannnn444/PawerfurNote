@@ -4,6 +4,13 @@
 //
 //  Created by Janus on 2025/2/1.
 //
+//
+//  NetworkManager.swift
+//  PawerfurNoteApp
+//
+//  Created by Janus on 2025/2/1.
+//  Refactored to use async/await pattern
+//
 
 import Foundation
 
@@ -23,170 +30,117 @@ struct ApiError: Decodable, Error {
 }
 
 class NetworkManager {
-    // instantiate singleton instance
+    // Instantiate singleton instance
     static var shared = NetworkManager()
     
     // MARK: - GET REQUEST HELPER
-    func getRequest<T: Decodable>(url: String, completion: @escaping(Result<T, Error>) -> Void) {
-        // convert url endpoint to URL object
-
+    func getRequest<T: Decodable>(url: String) async throws -> T {
+        // Convert url endpoint to URL object
         guard let urlObject = URL(string: "http://\(apiDomain):\(url)") else {
-            completion(.failure(NetworkError.urlError))
-            return
+            throw NetworkError.urlError
         }
-        // http://206.189.40.30/api/notes
-        // http://206.189.40.30:4040/api/product
+        
         print("DECODE Url: \(urlObject)")
         
-        // start data task for GET request with URL object
-        let task = URLSession.shared.dataTask(with: urlObject) { data, response, error in
-            if let error = error {
-                print("DEBUG: Error occured during GET request.")
-                completion(.failure(error))
-                return
-            }
-            // check for valid data
-            guard let data = data else {
-                completion(.failure(NetworkError.unknownError))
-                return
+        // Use async/await pattern to fetch data
+        do {
+            let (data, _) = try await URLSession.shared.data(from: urlObject)
+            
+            // Attempt to decode the data
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            print("decodedDataJsonData: \(decodedData)")
+            
+            return decodedData
+        } catch {
+            print("DEBUG: Error occurred during GET request: \(error)")
+            
+            // If decoding fails, throw appropriate error
+            if let decodingError = error as? DecodingError {
+                throw NetworkError.decodingError(decodingError.localizedDescription)
             }
             
-            // MARK: JsonData DEBUG Print
-                
-                do {
-                    // attempt to decode the data
-                    let decodedData = try JSONDecoder().decode(T.self, from: data)
-                    
-                    print("decodedDataJsonData1 : \(decodedData)")
-                    
-                    DispatchQueue.main.async {
-                        print("decodedDataJsonData2 : \(decodedData)")
-                        // return data after asynchronous operation
-                        completion(.success(decodedData))
-                        print("decodedDataJsonData3 : \(decodedData)")
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(.failure(NetworkError.decodingError(error.localizedDescription)))
-                    }
-                }
+            throw error
         }
-        
-        // initiate async request
-        task.resume()
-        
     }
     
-    
     // MARK: - POST REQUEST HELPER
-    func postRequest<T: Encodable, U: Decodable>(url: String, payload: T, completion: @escaping (Result<U, Error>) -> Void) {
-        
-        // T is dynamic type, product type, title: string and price: float(decimal)
-        // guard against any unaccepted url strings and create URL object
+    func postRequest<T: Encodable, U: Decodable>(url: String, payload: T) async throws -> U {
+        // Guard against any unaccepted url strings and create URL object
         guard let urlObj = URL(string: "http://\(apiDomain):\(url)") else {
-            completion(.failure(NetworkError.urlError))
-            return
+            throw NetworkError.urlError
         }
+        
         print("DECODE Url: \(urlObj)")
         
-        // create a URLRequest object
+        // Create a URLRequest object
         var request = URLRequest(url: urlObj)
         
-        // set http method to POST
+        // Set http method to POST
         request.httpMethod = "POST"
         
-        // set Content-Type headers
+        // Set Content-Type headers
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // attempt to encode JSON
+        // Attempt to encode JSON
         do {
             let jsonData = try JSONEncoder().encode(payload)
             print("[postRequest helper] encoded jsonData: \(jsonData)")
-            request.httpBody = jsonData // set body of request with json data
-            
+            request.httpBody = jsonData // Set body of request with json data
         } catch {
             print("DEBUG error when encoding: \(error)")
-            completion(.failure(error))
-            return
+            throw error
         }
         
-        // make post request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(NetworkError.unknownError))
-                return
-            }
-            
-            // check for errors
-            if let error = error  {
-                print("DEBUG error when making request: \(error)")
-                completion(.failure(error))
-                return
-            }
-            
-            // attempt to unwrap data, guarding against nil data
-            guard let data = data else {
-                completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Data was nil."])))
-                return
-            }
-            
-            // use the http status code to determine whether or not completion was a success
-            switch httpResponse.statusCode {
-            case 200, 201:
-                // do-catch in attempt to decode data
-                do {
-                    let responseData = try JSONDecoder().decode(U.self, from: data)
-                    completion(.success(responseData))
-                } catch {
-                    completion(.failure(NetworkError.decodingError("Error decoding successful response")))
-                }
-            default:
-                do {
-                    let errorData = try JSONDecoder().decode(ApiError.self, from: data)
-                    completion(.failure(NetworkError.serverError(errorData.message)))
-                } catch {
-                    completion(.failure(NetworkError.decodingError("Error decoding error response")))
-                }
-            }
+        // Make post request with async/await
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.unknownError
         }
         
-        // initialize task
-        task.resume()
+        // Use the http status code to determine whether or not completion was a success
+        switch httpResponse.statusCode {
+        case 200, 201:
+            // Attempt to decode data
+            do {
+                let responseData = try JSONDecoder().decode(U.self, from: data)
+                return responseData
+            } catch {
+                throw NetworkError.decodingError("Error decoding successful response")
+            }
+        default:
+            do {
+                let errorData = try JSONDecoder().decode(ApiError.self, from: data)
+                throw NetworkError.serverError(errorData.message)
+            } catch {
+                if let networkError = error as? NetworkError {
+                    throw networkError
+                }
+                throw NetworkError.decodingError("Error decoding error response")
+            }
+        }
     }
     
-    // MARK: DELETE REQUEST HELPER
-    func deleteRequest(url: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        
+    // MARK: - DELETE REQUEST HELPER
+    func deleteRequest(url: String) async throws -> Data {
         print("Delete request with: \(url)")
         
-        // guard against any unaccepted url strings and create URL object
-        guard let url = URL(string: "http://\(apiDomain):3000\(url)") else { return }
-        
-        // create a URLRequest object
-        var request = URLRequest(url: url)
-        
-        // set http method to POST
-        request.httpMethod = "DELETE"
-        
-        // set Content-Type headers
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // make post request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // check for errors
-            if let error = error  {
-                completion(.failure(error))
-                return
-            }
-            // check for any data response
-            if let data = data {
-                completion(.success(data))
-            }
+        // Guard against any unaccepted url strings and create URL object
+        guard let url = URL(string: "http://\(apiDomain):3000\(url)") else {
+            throw NetworkError.urlError
         }
         
-        // initialize task
-        task.resume()
+        // Create a URLRequest object
+        var request = URLRequest(url: url)
         
+        // Set http method to DELETE
+        request.httpMethod = "DELETE"
+        
+        // Set Content-Type headers
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Make delete request with async/await
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return data
     }
 }

@@ -15,16 +15,16 @@ struct ContentView: View {
     @State private var username: String = ""
     @State private var password: String = ""
     
-    @State private var imageNumer: Int = 1
+    @State private var imageNumber: Int = 1
     @State private var randomNumber: Int = 1
     
     @State private var showAlert = false
     @State private var alertMessage = ""
-    @State private var isLoading = false
+    @State private var isLoggingIn = false
     @State private var showNote = false
-    @State private var isLoggedIn = false
 
     init() {
+        // Configure navigation bar appearance
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.backgroundColor = UIColor.clear // Makes the navbar transparent
@@ -36,15 +36,15 @@ struct ContentView: View {
     }
     
     func randomImage() {
-        print("Status: Old Image Number = \(imageNumer)")
+        print("Status: Old Image Number = \(imageNumber)")
         repeat {
             randomNumber = Int.random(in: 1...5)
-            print("Actin: Random number generatd: \(randomNumber)")
-        } while randomNumber == imageNumer
+            print("Action: Random number generated: \(randomNumber)")
+        } while randomNumber == imageNumber
         /* This loop repeats when the numbers are the same. */
         
-        imageNumer = randomNumber
-        print("Result: New Image number: \(imageNumer)")
+        imageNumber = randomNumber
+        print("Result: New Image number: \(imageNumber)")
         print("--- The End ---")
         print("\n")
     }
@@ -62,13 +62,13 @@ struct ContentView: View {
                     
                     MotionAnimationView()
                     // MARK: - ✅ Rock Image
-                    Image("rock\(imageNumer)")
+                    Image("rock\(imageNumber)")
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100, height: 100)
                 }
                 
-                // MARK: - ✅ Greetinga
+                // MARK: - ✅ Greeting
                 Text("Hi Welcome to Pawerfur Note 🐾")
                     .font(.body)
                     .foregroundColor(.noteMediumDarktea)
@@ -85,10 +85,9 @@ struct ContentView: View {
                         .padding()
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.none)
-                        .submitLabel(.done)
-                        .onSubmit {
-                            hideKeyboard()
-                        }
+                        .submitLabel(.next)
+                        .keyboardType(.emailAddress)
+                        .disabled(isLoggingIn)
                     
                     // MARK: - ✅ Password TextField
                     SecureField("Enter password", text: $password)
@@ -96,92 +95,40 @@ struct ContentView: View {
                         .frame(width: 300)
                         .padding()
                         .submitLabel(.done)
+                        .disabled(isLoggingIn)
                         .onSubmit {
-                            hideKeyboard()
+                            if !username.isEmpty && !password.isEmpty {
+                                loginUser()
+                            }
                         }
-                }.padding()
-                
-                // ✅ Show loading spinner while login is processing
-                if isLoading {
-                    VStack {
-                        ProgressView("Logging in") // Loading bar
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .padding()
-                    }
                 }
+                .padding()
                 
                 Spacer()
                 
-                HStack{
+                HStack {
                     // MARK: - ✅ Log-In Button
-                    Button() {
-                        hideKeyboard()
-                        isLoading = true // ✅ Show loading before login attempt
-                        noteViewModel.login(email: username, password: password)
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Ensure login state updates
-                            // When api works, $noteViewModel.showPleaseLogin will be false.
-                            if !noteViewModel.showPleaseLogin {
-                                DispatchQueue.main.async {
-                                    alertMessage = "Login Successful!"
-                                    showAlert = true
-                                    isLoading = false // ✅ Stop loading
-                                    noteViewModel.isLogin = true
-                                }
-                            } else {
-                                alertMessage = "Login Failed..."
-                                showAlert = true  // Show alert for failure too
-                                isLoading = false
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    showAlert = false
-                                }
-                            }
-                            isLoading = false // ✅ Hide loading indicator
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                if noteViewModel.isLogin {
-                                    showNote = true // ✅ Ensures transition happens after alert disappears
-                                }
-                            }
-                        }
+                    Button {
+                        loginUser()
                     } label: {
-                        ZStack{
+                        ZStack {
                             CustomButtonView()
-                            Text("Login")
-                                .padding()
-                                .font(.body)
-                                .foregroundColor(.noteAlmond)
+                            if isLoggingIn {
+                                ProgressView()
+                                    .tint(.noteAlmond)
+                            } else {
+                                Text("Login")
+                                    .padding()
+                                    .font(.body)
+                                    .foregroundColor(.noteAlmond)
+                            }
                         }
                     }
-                    .alert(isPresented: $showAlert) {
-                        Alert(
-                            title: Text("Notification"),
-                            message: Text(alertMessage),
-                            dismissButton: .default(Text("OK")) {
-                                if alertMessage == "Login Successful!" {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        if noteViewModel.isLogin {
-                                            showNote = true // Only allow showing when logged in
-                                        }
-                                    }
-                                } else if alertMessage == "Login Failed..." {
-                                    noteViewModel.isLogin = false
-                                    showNote = false
-                                }
-                            }
-                        )
-                    }
+                    .disabled(isLoggingIn || username.isEmpty || password.isEmpty)
                     
                     // MARK: - ✅ Log-Out Button
-                    Button() {
-                        randomImage()
-                        if noteViewModel.showPleaseLogin {
-                            byeMsg = "Please log in first! "
-                        } else {
-                            noteViewModel.isLogin = false
-                            byeMsg = "Successfully log out!"
-                            noteViewModel.showPleaseLogin = true
-                            showNote = false
-                        }
+                    Button {
+                        logoutUser()
                     } label: {
                         ZStack {
                             CustomButtonView()
@@ -191,11 +138,23 @@ struct ContentView: View {
                                 .foregroundColor(.noteAlmond)
                         }
                     }
+                    .disabled(isLoggingIn)
+                }
+                .padding(.top, 40)
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Notification"),
+                        message: Text(alertMessage),
+                        dismissButton: .default(Text("OK")) {
+                            if alertMessage == "Login Successful!" && noteViewModel.isLogin {
+                                showNote = true
+                            }
+                        }
+                    )
                 }
                 .fullScreenCover(isPresented: $showNote) {
                     NotesView()
                 }
-                .padding(.top, 40)
                 
                 // MARK: - ✅ Sign-Up
                 NavigationLink(destination: SignUpView()) {
@@ -204,8 +163,9 @@ struct ContentView: View {
                         .font(.body)
                         .foregroundColor(.noteMilktea)
                 }
+                .disabled(isLoggingIn)
                 
-                Text("\(byeMsg)")
+                Text(byeMsg)
                     .font(.body)
                     .foregroundColor(.noteMilktea)
                     .padding()
@@ -213,5 +173,65 @@ struct ContentView: View {
             .padding()
         }
     }
+    
+    // MARK: - Login Function
+    private func loginUser() {
+        hideKeyboard()
+        
+        // Don't proceed if fields are empty
+        guard !username.isEmpty && !password.isEmpty else {
+            alertMessage = "Please enter both username and password"
+            showAlert = true
+            return
+        }
+        
+        // Set loading state
+        isLoggingIn = true
+        byeMsg = ""
+        
+        // Use Task to call async function
+        Task {
+            await noteViewModel.login(email: username, password: password)
+            
+            // Update UI on the main thread
+            await MainActor.run {
+                isLoggingIn = false
+                
+                if !noteViewModel.showPleaseLogin {
+                    // Login successful
+                    alertMessage = "Login Successful!"
+                    showAlert = true
+                    
+                    // After alert is dismissed, showNote will be set to true
+                } else {
+                    // Login failed
+                    alertMessage = "Login Failed..."
+                    showAlert = true
+                }
+            }
+        }
+    }
+    
+    // MARK: - Logout Function
+    private func logoutUser() {
+        randomImage()
+        
+        if noteViewModel.showPleaseLogin {
+            byeMsg = "Please log in first!"
+        } else {
+            noteViewModel.isLogin = false
+            byeMsg = "Successfully logged out!"
+            noteViewModel.showPleaseLogin = true
+            showNote = false
+            
+            // Clear credentials
+            username = ""
+            password = ""
+        }
+    }
 }
 
+#Preview {
+    ContentView()
+        .environmentObject(NotesViewModel())
+}
