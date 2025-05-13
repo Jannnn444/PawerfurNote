@@ -3,13 +3,7 @@
 //  Notes
 //
 //  Created by Janus on 1/27/25.
-//
-//
-//  EditNotesView.swift
-//  Notes
-//
-//  Created by Janus on 1/27/25.
-//  Refactored to use async/await pattern
+//  Updated with async/await pattern
 //
 
 import SwiftUI
@@ -20,7 +14,7 @@ struct EditNotesView: View {
     @State var note: Note?
     @State private var title: String = ""
     @State private var content: String = ""
-    @State private var isSaving = false
+    @State private var isSubmitting = false
     @FocusState private var contentEditorInFocus: Bool
     @Environment(\.dismiss) var dismiss
     
@@ -31,8 +25,8 @@ struct EditNotesView: View {
                     TextField("Title", text: $title, axis: .vertical)
                         .font(.title.bold())
                         .submitLabel(.next)
-                        .onChange(of: title) { _, newValue in
-                            guard let newValueLastChar = newValue.last else { return }
+                        .onChange(of: title) {
+                            guard let newValueLastChar = title.last else { return }
                             if newValueLastChar == "\n" {
                                 title.removeLast()
                                 contentEditorInFocus = true
@@ -48,38 +42,42 @@ struct EditNotesView: View {
             }
             .navigationTitle("Edit Note")
             .navigationBarTitleDisplayMode(.inline)
+            .overlay {
+                if isSubmitting {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .tint(.noteDarktea)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(.ultraThinMaterial)
+                                .frame(width: 100, height: 100)
+                        )
+                }
+            }
             .toolbar {
                 // ✅ Done Button (always visible)
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         saveNote()
                     } label: {
-                        if isSaving {
-                            ProgressView()
-                                .tint(.noteDarktea)
-                        } else {
-                            Text("Done")
-                                .bold()
-                                .font(.title3)
-                                .foregroundStyle(.noteDarktea)
-                        }
+                        Text("Done")
+                            .bold()
+                            .font(.title3)
+                            .foregroundStyle(.noteDarktea)
                     }
-                    .disabled(isSaving)
+                    .disabled(isSubmitting)
                 }
                 
                 // ✅ Delete Button (only if note exists)
                 if note != nil {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(role: .destructive) {
-                            if let note = note {
-                                noteViewModel.deleteNote(note) // Delete the note
-                                dismiss() // Close the sheet
-                            }
+                            deleteNote()
                         } label: {
                             Image(systemName: "trash")
                                 .foregroundColor(.red)
                         }
-                        .disabled(isSaving)
+                        .disabled(isSubmitting)
                     }
                 }
             }
@@ -90,9 +88,9 @@ struct EditNotesView: View {
                     self.title = note.title ?? ""
                     self.content = note.content ?? ""
                     
-                    // Focus the content editor after a short delay
-                    Task {
-                        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+                    // Focus on content with a slight delay for better UX
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .milliseconds(100))
                         self.contentEditorInFocus = true
                     }
                 }
@@ -100,23 +98,46 @@ struct EditNotesView: View {
         }
     }
     
+    // MARK: - Helper Functions
+    
     private func saveNote() {
-        // Hide keyboard first
+        self.hideKeyboard()
+        isSubmitting = true
         
-        // Set saving state
-        isSaving = true
-        
-        // Save the note using async/await
-        Task {
-            await noteViewModel.postNotes(title: title, content: content)
-            
-            // Refresh notes list after saving
-            await noteViewModel.getNotes()
-            
-            // Update UI on main thread
-            await MainActor.run {
-                isSaving = false
+        Task { @MainActor in
+            do {
+                // Post the note with async/await
+                await noteViewModel.postNotes(title: title, content: content)
+                
+                // Fetch updated notes list
+                await noteViewModel.getNotes()
+                
+                isSubmitting = false
                 dismiss()
+            } catch {
+                isSubmitting = false
+                // Handle error if needed
+                print("Error saving note: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func deleteNote() {
+        guard let note = note else { return }
+        
+        isSubmitting = true
+        
+        Task { @MainActor in
+            do {
+                // Delete the note with async/await
+                await noteViewModel.deleteNote(note)
+                
+                isSubmitting = false
+                dismiss()
+            } catch {
+                isSubmitting = false
+                // Handle error if needed
+                print("Error deleting note: \(error.localizedDescription)")
             }
         }
     }
