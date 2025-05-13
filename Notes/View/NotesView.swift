@@ -61,7 +61,13 @@ struct NotesView: View {
                         .onDelete { indexSet in
                             indexSet.forEach { index in
                                 let noteToDelete = noteViewModel.notes[index]
-                                noteViewModel.deleteNote(noteToDelete) // Delete only this note
+//                    noteViewModel.deleteNote(noteToDelete) // Delete only this note
+                                
+                                Task {
+                                    do {
+                                        await noteViewModel.deleteNote(noteToDelete)
+                                    }
+                                }
                             }
                         }
                         .listRowBackground(Color.clear)
@@ -81,7 +87,12 @@ struct NotesView: View {
         .ignoresSafeArea()
         .background(.noteAlmond)
         .onAppear {
-            noteViewModel.getNotes()
+//            noteViewModel.getNotes()
+            Task {
+                do {
+                    await noteViewModel.getNotes()
+                }
+            }
         }
         .fullScreenCover(isPresented: $isHeadToHome) {
             ContentView()
@@ -91,15 +102,26 @@ struct NotesView: View {
     private func deleteNote(at offsets: IndexSet) {
         for index in offsets {
             let noteToDelete = noteViewModel.notes[index]
-            noteViewModel.deleteNote(noteToDelete)
+//            noteViewModel.deleteNote(noteToDelete)
+            
+            Task {
+                do {
+                    await noteViewModel.deleteNote(noteToDelete)
+                }
+            }
         }
     }
 
     private func createNote() {
         let newTitle = "New Note"
         let newContent = ""
-        noteViewModel.postNotes(title: newTitle, content: newContent)
-        noteViewModel.getNotes()
+        
+        task {
+            do {
+                await noteViewModel.postNotes(title: newTitle, content: newContent)
+                await noteViewModel.getNotes()
+            }
+        }
     }
 }
 

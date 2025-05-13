@@ -32,9 +32,7 @@ struct SignUpView: View {
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.none)
                 .submitLabel(.done)
-                .onSubmit {
-                    hideKeyboard()
-                }
+               
             
             TextField("Phone", text: $phone)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -72,7 +70,13 @@ struct SignUpView: View {
               
                     Button() {
                         hideKeyboard()
-                        noteViewModel.signup(name: name, email: email, password: password, phone: phone)
+// noteViewModel.signup(name: name, email: email, password: password, phone: phone)
+                        
+                        Task {
+                            do {
+                                await noteViewModel.signup(name: name, email: email, password: password, phone: phone)
+                            }
+                        }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             // When API works, isCreated will be set true

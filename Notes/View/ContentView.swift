@@ -86,19 +86,14 @@ struct ContentView: View {
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.none)
                         .submitLabel(.done)
-                        .onSubmit {
-                            hideKeyboard()
-                        }
-                    
+                       
                     // MARK: - ✅ Password TextField
                     SecureField("Enter password", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(width: 300)
                         .padding()
                         .submitLabel(.done)
-                        .onSubmit {
-                            hideKeyboard()
-                        }
+                      
                 }.padding()
                 
                 // ✅ Show loading spinner while login is processing
@@ -117,7 +112,12 @@ struct ContentView: View {
                     Button() {
                         hideKeyboard()
                         isLoading = true // ✅ Show loading before login attempt
-                        noteViewModel.login(email: username, password: password)
+//       noteViewModel.login(email: username, password: password)
+                        Task {
+                            do {
+                                await noteViewModel.login(email: username, password: password)
+                            }
+                        }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Ensure login state updates
                             // When api works, $noteViewModel.showPleaseLogin will be false.
