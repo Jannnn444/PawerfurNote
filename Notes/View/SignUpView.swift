@@ -70,7 +70,6 @@ struct SignUpView: View {
               
                     Button() {
                         hideKeyboard()
-// noteViewModel.signup(name: name, email: email, password: password, phone: phone)
                         
                         Task {
                             do {

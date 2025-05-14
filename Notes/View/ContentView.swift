@@ -54,22 +54,22 @@ struct ContentView: View {
             VStack {
                 
                 ZStack {
-                    CustomCircleView()
-                    Rectangle()
-                        .fill(.white)
-                        .frame(width: 180, height: 180)
-                        .cornerRadius(10)
-                    
-                    MotionAnimationView()
-                    // MARK: - ✅ Rock Image
-                    Image("rock\(imageNumer)")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 100)
+//                    CustomCircleView()
+//                    Rectangle()
+//                        .fill(.white)
+//                        .frame(width: 180, height: 180)
+//                        .cornerRadius(10)
+//                    
+//                    MotionAnimationView()
+//                    // MARK: - ✅ Rock Image
+//                    Image("rock\(imageNumer)")
+//                        .resizable()
+//                        .scaledToFill()
+//                        .frame(width: 100, height: 100)
                 }
                 
                 // MARK: - ✅ Greetinga
-                Text("Hi Welcome to Pawerfur Note 🐾")
+                Text("Hi Welcome to Pawerfur Note")
                     .font(.body)
                     .foregroundColor(.noteMediumDarktea)
                     .padding()
