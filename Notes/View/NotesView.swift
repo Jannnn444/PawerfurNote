@@ -61,8 +61,6 @@ struct NotesView: View {
                         .onDelete { indexSet in
                             indexSet.forEach { index in
                                 let noteToDelete = noteViewModel.notes[index]
-//                    noteViewModel.deleteNote(noteToDelete) // Delete only this note
-                                
                                 Task {
                                     do {
                                         await noteViewModel.deleteNote(noteToDelete)
@@ -87,7 +85,6 @@ struct NotesView: View {
         .ignoresSafeArea()
         .background(.noteAlmond)
         .onAppear {
-//            noteViewModel.getNotes()
             Task {
                 do {
                     await noteViewModel.getNotes()
